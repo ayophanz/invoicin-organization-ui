@@ -17,7 +17,7 @@ export default defineConfig({
   },
   base: 'http://127.0.0.1/',
   server: {
-    port: 9001,
+    port: 9002,
   },
   plugins: [
     vue({
