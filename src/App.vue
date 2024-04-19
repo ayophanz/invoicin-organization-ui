@@ -1,31 +1,24 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="flex min-h-full flex-col">
+    <div class="mx-auto flex w-full max-w-7xl items-start">
+      <aside class="sticky min-h-96 w-44 shrink-0 block">
+      </aside>
+
+      <main class="flex-1">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis commodo odio aenean sed. Elit duis tristique sollicitudin nibh sit amet. Dolor sit amet consectetur adipiscing elit duis. Hac habitasse platea dictumst quisque sagittis purus. Ut tristique et egestas quis ipsum. Sed arcu non odio euismod lacinia at quis risus sed. Feugiat sed lectus vestibulum mattis ullamcorper velit sed. Sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Ultrices tincidunt arcu non sodales neque. Vel risus commodo viverra maecenas accumsan lacus vel facilisis. Eget mauris pharetra et ultrices neque ornare aenean euismod elementum. Auctor elit sed vulputate mi sit. Arcu odio ut sem nulla pharetra diam sit. Proin sed libero enim sed faucibus turpis in eu mi. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Massa eget egestas purus viverra accumsan. Nulla facilisi nullam vehicula ipsum.
+
+Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in. Sem viverra aliquet eget sit amet tellus cras adipiscing enim. Vitae turpis massa sed elementum tempus. Arcu ac tortor dignissim convallis aenean et tortor. Sed nisi lacus sed viverra tellus in hac. Eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Congue eu consequat ac felis donec. Aenean et tortor at risus viverra adipiscing at. Metus vulputate eu scelerisque felis. Risus quis varius quam quisque id. Nec nam aliquam sem et tortor. Nulla facilisi cras fermentum odio eu feugiat. Ut eu sem integer vitae justo eget magna fermentum iaculis. Dui sapien eget mi proin. Congue mauris rhoncus aenean vel elit. Dui id ornare arcu odio ut sem nulla pharetra.
+
+Ipsum faucibus vitae aliquet nec ullamcorper. Ornare arcu dui vivamus arcu. Justo laoreet sit amet cursus sit amet dictum sit amet. Risus commodo viverra maecenas accumsan lacus vel. Justo nec ultrices dui sapien eget mi proin. Justo nec ultrices dui sapien eget mi proin sed. Quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis. Pulvinar mattis nunc sed blandit libero volutpat sed cras ornare. Bibendum neque egestas congue quisque egestas diam in arcu cursus. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. A erat nam at lectus urna duis convallis convallis. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan. Amet aliquam id diam maecenas ultricies mi eget mauris. Donec et odio pellentesque diam.
+
+Mattis vulputate enim nulla aliquet. Mauris vitae ultricies leo integer. Nisl nisi scelerisque eu ultrices vitae auctor. Nulla facilisi morbi tempus iaculis. Cum sociis natoque penatibus et magnis dis. Dignissim suspendisse in est ante in nibh mauris. Ornare aenean euismod elementum nisi quis eleifend. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Ipsum consequat nisl vel pretium lectus quam. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Vitae tempus quam pellentesque nec nam aliquam sem et. Nunc mi ipsum faucibus vitae. Egestas congue quisque egestas diam in arcu cursus euismod. Elementum pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Maecenas sed enim ut sem viverra aliquet. Libero enim sed faucibus turpis in eu. Dui ut ornare lectus sit amet. Aliquam faucibus purus in massa tempor nec feugiat nisl. Enim blandit volutpat maecenas volutpat. Amet cursus sit amet dictum sit amet justo donec enim.
+
+Vitae suscipit tellus mauris a diam maecenas. Egestas diam in arcu cursus euismod quis. Leo vel orci porta non pulvinar neque laoreet. Neque viverra justo nec ultrices dui sapien eget mi proin. Amet risus nullam eget felis eget. Diam ut venenatis tellus in metus vulputate eu scelerisque felis. Elit at imperdiet dui accumsan sit amet. Cursus eget nunc scelerisque viverra mauris in aliquam sem. Consectetur adipiscing elit pellentesque habitant morbi tristique. Diam volutpat commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Neque sodales ut etiam sit. Est sit amet facilisis magna etiam tempor orci eu. Tellus integer feugiat scelerisque varius morbi. Nisi lacus sed viverra tellus in. Proin sed libero enim sed faucibus turpis. Sit amet dictum sit amet justo donec enim. Enim nunc faucibus a pellentesque sit amet porttitor. Felis eget nunc lobortis mattis aliquam faucibus. Turpis egestas pretium aenean pharetra.
+      </main>
+
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script setup>
+</script>
