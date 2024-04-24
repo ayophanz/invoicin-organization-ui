@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue';
 import App from './App.vue';
 import { createPinia } from 'pinia';
+import router from './router';
 import singleSpaVue from 'single-spa-vue';
 import floatingVue from 'floating-vue';
 import Toast from "vue-toastification";
@@ -31,6 +32,7 @@ const vueLifecycles = singleSpaVue({
     },
     handleInstance: (app) => {
         app.use(pinia);
+        app.use(router);
         app.use(floatingVue);
         app.use(Toast, toastOptions);
     },
