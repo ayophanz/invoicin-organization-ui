@@ -2,7 +2,7 @@
   <div class="flex h-full flex-col">
     <div class="mx-auto h-full flex w-full items-start">
       <Sidebar></Sidebar>
-      <article class="flex-1">
+      <article class="flex-1 h-full">
         <router-view/>
       </article>
     </div>
