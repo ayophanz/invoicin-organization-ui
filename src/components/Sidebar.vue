@@ -1,7 +1,7 @@
 <template>
     <aside :class="compMenuHideToggle ? 'w-44 px-2 border-r' : 'w-0 p-0 border-r-0'" class="transition-all duration-700 py-1 h-full shrink-0  border-gray-200 overflow-hidden">
         <div class="flex justify-end mb-2">
-            <a href="javascript:;" @click="menuHide()" :class="compMenuHideToggle ? 'rotate-0' : 'rotate-180'" class="text-white bg-gray-700 transition-all duration-700 absolute rounded-full left-[-16px] p-1 top-2/4">
+            <a href="javascript:;" @click="menuHide()" :class="compMenuHideToggle ? 'rotate-0' : 'rotate-180'" class="text-white bg-gray-700 transition-all duration-700 absolute rounded-full left-[-16px] p-1">
               <ArrowLeftIcon class="h-5 w-5" aria-hidden="true"/>
             </a>
         </div>
