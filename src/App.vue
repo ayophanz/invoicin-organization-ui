@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-full flex-col">
+  <div class="organization-app flex h-full flex-col">
     <div class="mx-auto h-full flex w-full items-start">
       <Sidebar></Sidebar>
-      <article class="flex-1 h-full">
+      <article class="flex-1 h-full mx-4">
         <router-view/>
       </article>
     </div>
