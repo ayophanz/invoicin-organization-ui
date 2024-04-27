@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import Sidebar from './components/Sidebar.vue';
-
+  import 'floating-vue/dist/style.css';
+  import "vue-toastification/dist/index.css";
+  import './style.css';
+  import Sidebar from './components/Sidebar.vue';
 </script>

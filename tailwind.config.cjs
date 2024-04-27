@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  important: '#organization-container',
   content: [
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
@@ -7,5 +8,10 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  corePlugins: {
+		preflight: false
+	},
+  plugins: [
+    //
+  ],
 }

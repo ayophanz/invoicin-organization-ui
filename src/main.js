@@ -6,10 +6,6 @@ import singleSpaVue from 'single-spa-vue';
 import floatingVue from 'floating-vue';
 import Toast from "vue-toastification";
 
-import './style.css';
-import 'floating-vue/dist/style.css';
-import "vue-toastification/dist/index.css";
-
 const toastOptions = {
   // You can set your default options here
 };
