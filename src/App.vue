@@ -18,6 +18,6 @@
   import services from './services';
 
   onMounted(async () => {
-    //await services.me();
+    await services.me();
   });
 </script>

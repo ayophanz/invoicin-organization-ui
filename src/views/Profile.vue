@@ -9,8 +9,13 @@
     import Form from '../components/form/Form.vue';
     import services from '../services';
     import { useToast } from 'vue-toastification';
+    import { useOrganizationStore } from '../stores/organization';
+    import { storeToRefs } from 'pinia';
 
+    const organizationStore = useOrganizationStore();
+    const { getProfile } = storeToRefs(organizationStore) as any;
     const toast = useToast();
+
     const submitLoading = ref(false);
     const profileForm = ref({
         image: {
@@ -30,14 +35,16 @@
         }
     });
 
-    onMounted(() => {
-        
+    onMounted(async() => {
+        await services.showProfile();
+        console.log(getProfile.value);
+        //profileForm.value['name'].value = getProfile.value.name;
     });
 
     const onFormSave = async () => {
         submitLoading.value = true;
         profileForm.value['errors'] = {};
-        await services.updateProfile(1, {})
+        await services.updateProfile({})
         .then(() => {
             submitLoading.value = false;
             toast.success('Successfully Save!', {

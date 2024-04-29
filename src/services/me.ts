@@ -4,7 +4,7 @@ import { useOrganizationStore } from '../stores/organization';
 const success = (response: object, resolve: any) => {
     if (response) {
         const organizationStore = useOrganizationStore();
-        organizationStore.me(response);
+        organizationStore.setMe(response);
         return resolve(response);
     }
 };
