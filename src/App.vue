@@ -14,4 +14,10 @@
   import "vue-toastification/dist/index.css";
   import './style.css';
   import Sidebar from './components/Sidebar.vue';
+  import { onMounted } from 'vue';
+  import services from './services';
+
+  onMounted(async () => {
+    //await services.me();
+  });
 </script>

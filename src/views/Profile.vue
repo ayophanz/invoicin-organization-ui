@@ -5,9 +5,12 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { computed, ref } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
     import Form from '../components/form/Form.vue';
+    import services from '../services';
+    import { useToast } from 'vue-toastification';
 
+    const toast = useToast();
     const submitLoading = ref(false);
     const profileForm = ref({
         image: {
@@ -27,9 +30,27 @@
         }
     });
 
-    const onFormSave = () => {
+    onMounted(() => {
+        
+    });
+
+    const onFormSave = async () => {
         submitLoading.value = true;
         profileForm.value['errors'] = {};
+        await services.updateProfile(1, {})
+        .then(() => {
+            submitLoading.value = false;
+            toast.success('Successfully Save!', {
+                timeout: 2000
+            });
+        })
+        .catch((error) => {
+            submitLoading.value = false;
+            profileForm.value['errors'] = error;
+            toast.error('Something went wrong!', {
+                timeout: 2000
+            });
+        });
     };
 
     const updateProfileForm = (value: {name: string, value: string}) => {
