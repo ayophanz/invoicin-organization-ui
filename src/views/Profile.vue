@@ -17,29 +17,33 @@
     const toast = useToast();
 
     const submitLoading = ref(false);
-    const profileForm = ref({
+    let profileForm = ref({
         image: {
             label: 'Company logo',
             value: null,
             type: 'file'
         },
         name: {
-            label: 'Company name',
+            label: 'Company name*',
             value: '',
             type: 'text'
         },
         email: {
-            label: 'Company email',
+            label: 'Company email*',
             value: '',
             type: 'email'
         }
     });
 
-    onMounted(async() => {
-        await services.showProfile();
-        console.log(getProfile.value);
-        //profileForm.value['name'].value = getProfile.value.name;
+    onMounted(() => {
+        show();
     });
+
+    const show = async () => {
+        await services.showProfile();
+        profileForm.value['name'].value = getProfile.value.name;
+        profileForm.value['email'].value = getProfile.value.email;
+    };
 
     const onFormSave = async () => {
         submitLoading.value = true;
@@ -64,7 +68,5 @@
         profileForm.value[value.name].value = value.value;
     };
 
-    const compProfileForm = computed(() => {
-        return profileForm.value;
-    });
+    const compProfileForm = computed(() => profileForm);
 </script>

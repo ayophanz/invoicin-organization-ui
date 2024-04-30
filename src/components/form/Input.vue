@@ -4,7 +4,7 @@
         <div class="mt-1 flex flex-col">
             <input 
                 autocomplete="off"
-                v-model="input" 
+                v-model="value" 
                 :type="type" 
                 :name="name" 
                 :id="name"
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, toRef, onMounted, watch } from 'vue';
+    import { ref, toRef, onMounted, watch, onUpdated } from 'vue';
 
     const emit = defineEmits(['onchangeData']);
     const props = defineProps({

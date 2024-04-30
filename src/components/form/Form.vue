@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, toRef, onMounted, onUpdated, computed } from 'vue';
+    import { ref, toRef, onMounted, onUpdated, computed, watch } from 'vue';
     import Input from './Input.vue';
     import File from './File.vue';
     import Select from './Select.vue';
@@ -68,11 +68,12 @@
 
     onMounted(() => {
         fields.value = form.value;
+        console.log(fields.value);
     });
 
     onUpdated(() => {
         initErrors(fields);
-    });
+    });  
 
     const initErrors = (fields: any) => {
         if (fields.value.errors && Object.keys(fields.value.errors).length > 0) {
@@ -91,6 +92,9 @@
         emit('onchangeForm', value);
     };
 
-    const compFields = computed(() => fields.value);
+    let compFields = computed(() => fields.value);
 
+    watch(fields, (value) => {
+        // compFields = value;
+    });
 </script>
