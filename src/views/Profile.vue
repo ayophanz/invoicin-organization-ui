@@ -1,6 +1,7 @@
 <template>
     <h1 class="text-2xl font-semibold">Profile</h1>
-    <div class="mt-5">
+    <div class="mt-5 max-w-7xl mx-auto">
+        <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
         <Form :form="compProfileForm" :submit="onFormSave" :submitLoading="submitLoading" @onchange-form="updateProfileForm"></Form>
     </div>
 </template>

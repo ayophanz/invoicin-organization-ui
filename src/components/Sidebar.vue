@@ -49,7 +49,7 @@
             },
             {
                 name: 'Addresses',
-                to: '/organization/addresses'
+                to: '/organization/address'
             },
             {
                 name: 'Settings',
