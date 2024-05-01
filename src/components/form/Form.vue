@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, toRef, onMounted, onUpdated, computed, watch } from 'vue';
+    import { ref, onUpdated, computed } from 'vue';
     import Input from './Input.vue';
     import File from './File.vue';
     import Select from './Select.vue';
@@ -63,18 +63,12 @@
         },
     });
 
-    let fields = ref();
-    const form = toRef(props.form);
-
-    onMounted(() => {
-        fields.value = form.value;
-        console.log(fields.value);
-    });
+    let fields = ref(props.form);
 
     onUpdated(() => {
         initErrors(fields);
-    });  
-
+    });
+    
     const initErrors = (fields: any) => {
         if (fields.value.errors && Object.keys(fields.value.errors).length > 0) {
             Object.keys(fields.value.errors).forEach(function(key) {
@@ -93,8 +87,4 @@
     };
 
     let compFields = computed(() => fields.value);
-
-    watch(fields, (value) => {
-        // compFields = value;
-    });
 </script>

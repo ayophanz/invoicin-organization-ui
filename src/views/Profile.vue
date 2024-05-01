@@ -11,6 +11,7 @@
     import { useToast } from 'vue-toastification';
     import { useOrganizationStore } from '../stores/organization';
     import { storeToRefs } from 'pinia';
+    import formTraits from '../traits/formTraits.js';
 
     const organizationStore = useOrganizationStore();
     const { getProfile } = storeToRefs(organizationStore) as any;
@@ -18,7 +19,7 @@
 
     const submitLoading = ref(false);
     let profileForm = ref({
-        image: {
+        logo: {
             label: 'Company logo',
             value: null,
             type: 'file'
@@ -43,12 +44,14 @@
         await services.showProfile();
         profileForm.value['name'].value = getProfile.value.name;
         profileForm.value['email'].value = getProfile.value.email;
+        profileForm.value['logo'].value = getProfile.value.logo;
     };
 
     const onFormSave = async () => {
         submitLoading.value = true;
         profileForm.value['errors'] = {};
-        await services.updateProfile({})
+        const profileFormData = formTraits.setFormData(profileForm.value);
+        await services.updateProfile(profileFormData)
         .then(() => {
             submitLoading.value = false;
             toast.success('Successfully Save!', {
