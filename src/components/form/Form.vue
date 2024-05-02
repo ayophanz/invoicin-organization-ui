@@ -1,6 +1,6 @@
 <template>
     <div class="form-component">
-        <div v-for="(field, key) in compFields" :key="key">
+        <div v-for="(field, key) in fields" :key="key">
             <Input v-if="field.type === 'text' || field.type === 'email' || field.type === 'password'" 
                 :type="field.type" 
                 :value="field.value" 
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onUpdated, computed } from 'vue';
+    import { ref, onUpdated } from 'vue';
     import Input from './Input.vue';
     import File from './File.vue';
     import Select from './Select.vue';
@@ -82,9 +82,12 @@
         }
     };
 
+    // const onSubmit = async() => {
+    //     await props.submit()
+    //     .then()
+    // };
+
     let updateValue = (value: object) => {
         emit('onchangeForm', value);
     };
-
-    let compFields = computed(() => fields.value);
 </script>

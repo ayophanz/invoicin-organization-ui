@@ -2,24 +2,24 @@
     <h1 class="text-2xl font-semibold">Profile</h1>
     <div class="mt-5 max-w-7xl mx-auto">
         <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
-        <Form :form="compProfileForm" :submit="onFormSave" :submitLoading="submitLoading" @onchange-form="updateProfileForm"></Form>
+        <Form :form="form.fields()" @onchange-form="form.updateFormData($event)" :submit="onFormSave" :submitLoading="submitLoading"></Form>
     </div>
 </template>
 <script setup lang="ts">
-    import { computed, onMounted, ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import Form from '../components/form/Form.vue';
     import services from '../services';
     import { useToast } from 'vue-toastification';
     import { useOrganizationStore } from '../stores/organization';
     import { storeToRefs } from 'pinia';
-    import formTraits from '../traits/formTraits.js';
+    import formUtil from '../utils/form.js';
 
     const organizationStore = useOrganizationStore();
     const { getProfile } = storeToRefs(organizationStore) as any;
     const toast = useToast();
 
     const submitLoading = ref(false);
-    let profileForm = ref({
+    let form = new formUtil(ref({
         logo: {
             label: 'Company logo',
             value: null,
@@ -35,7 +35,7 @@
             value: '',
             type: 'email'
         }
-    });
+    }));
 
     onMounted(() => {
         show();
@@ -43,16 +43,19 @@
 
     const show = async () => {
         await services.showProfile();
-        profileForm.value['name'].value = getProfile.value.name;
-        profileForm.value['email'].value = getProfile.value.email;
-        profileForm.value['logo'].value = getProfile.value.logo;
+        const data = {
+            name: getProfile.value.name,
+            email: getProfile.value.email,
+            logo: getProfile.value.logo
+        };
+
+        form.setFormData(data);
     };
 
     const onFormSave = async () => {
         submitLoading.value = true;
-        profileForm.value['errors'] = {};
-        const profileFormData = formTraits.setFormData(profileForm.value);
-        await services.updateProfile(profileFormData)
+        form.setErrors({});
+        await services.updateProfile(form.getFormData())
         .then(() => {
             submitLoading.value = false;
             toast.success('Successfully Save!', {
@@ -61,16 +64,10 @@
         })
         .catch((error) => {
             submitLoading.value = false;
-            profileForm.value['errors'] = error;
+            form.setErrors(error);
             toast.error('Something went wrong!', {
                 timeout: 2000
             });
         });
     };
-
-    const updateProfileForm = (value: {name: string, value: string}) => {
-        profileForm.value[value.name].value = value.value;
-    };
-
-    const compProfileForm = computed(() => profileForm);
 </script>

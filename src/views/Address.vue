@@ -29,6 +29,14 @@
     import { MinusIcon, PlusIcon } from '@heroicons/vue/outline';
     import Form from '../components/form/Form.vue';
     import services from '../services';
+    import { useOrganizationStore } from '../stores/organization';
+    import { storeToRefs } from 'pinia';
+    import formTraits from '../traits/formTraits';
+    import { useToast } from "vue-toastification";
+
+    const toast = useToast();
+    const organizationStore = useOrganizationStore();
+    const { getAddresses } = storeToRefs(organizationStore) as any;
 
     const submitLoading = ref(false);
     const addresses = ref([
@@ -95,32 +103,58 @@
     ]) as any;
 
     onMounted(() => {
+        showOptons();
         showForm();
     });
 
     const showForm = async() => {
         await services.showAddress();
+        getAddresses.value.forEach((item: any) => {
+            const index = addresses.value.findIndex((item2: {type: string}) => item2.type === item.type.name);
+            if (index >= 0) {
+                addresses.value[index].addressForm.country.value = item.country;
+                addresses.value[index].addressForm.stateProvince.value = item.stateProvince;
+                addresses.value[index].addressForm.city.value = item.city;
+                addresses.value[index].addressForm.zipcode.value = item.zipcode;
+                addresses.value[index].addressForm.address.value = item.address;
+            }
+        });
+    };
+
+    const showOptons = async () => {
+        await services.countries()
+        .then((response: any) => {
+            addresses.value.forEach((item: any) => {
+                item.addressForm.country['options'] = response; 
+            });
+        }).catch((error) => {
+            console.log(error);
+        });
     };
 
     const onAddressesSave = (index: number) => async () => {
         submitLoading.value = true;
         addresses.value[index].addressForm['errors'] = {};
-        // let addressFormData = formTraits.setFormData(addresses.value[index].addressForm) as any;
-        // addressFormData.type = addresses.value[index].type;
-        // await accountService.updateAddress(getMe.value.id, addressFormData)
-        // .then(() => {
-        //     submitLoading.value = false;
-        //     toast.success('Successfully Save!', {
-        //         timeout: 2000
-        //     });
-        // })
-        // .catch((error) => {
-        //     submitLoading.value = false;
-        //     addresses.value[index].addressForm['errors'] = error;
-        //     toast.error('Something went wrong!', {
-        //         timeout: 2000
-        //     });
-        // });
+        let addressFormData = formTraits.getFormData(addresses.value[index].addressForm) as any;
+        addressFormData.type = addresses.value[index].type;
+        await services.updateAddress(addressFormData)
+        .then(() => {
+            submitLoading.value = false;
+            toast.success('Successfully Save!', {
+                timeout: 2000
+            });
+        })
+        .catch((error) => {
+            submitLoading.value = false;
+            addresses.value[index].addressForm['errors'] = error;
+            toast.error('Something went wrong!', {
+                timeout: 2000
+            });
+        });
+    };
+
+    const updateAddressesForm = (index: number, value: {name: string, value: string}) => {
+        addresses.value[index].addressForm[value.name].value = value.value;
     };
 
     const compAddressForm =  computed(() => (index: number) => addresses.value[index].addressForm);

@@ -1,21 +1,26 @@
 export default {
-
-    // convert form to name and value
-    setFormData(data: any) {
-        let formData = {};
-        Object.keys(data).map((key) => {
-            if (data[key].type === 'file') {
+    getFormData(form: any) {
+        let data = {};
+        Object.keys(form).map((key) => {
+            if (form[key].type === 'file') {
                 let files = [] as any;
-                if (data[key].value) {
-                    data[key].value.forEach((item: any, key: number) => {
+                if (form[key].value) {
+                    form[key].value.forEach((item: any, key: number) => {
                         files[key] = item.getFileEncodeBase64String();
                     });
                 }
-                formData[key] = files;
+                data[key] = files;
             } else {
-                formData[key] = data[key].value;
+                data[key] = form[key].value;
             }
         });
-        return formData;
+        return data;
+    },
+
+    setFormData(form: any, data: any) {
+        Object.keys(data).map((key) => {
+            form[key].value = data[key];
+        });
+        return form;
     }
 }

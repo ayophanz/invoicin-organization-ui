@@ -1,11 +1,12 @@
 import axios from '../plugins/axios';
 import { useOrganizationStore } from '../stores/organization';
+import addressTransformer from '../transformers/addressTransformer';
 
 const success = (data: object, resolve: any) => {
     if (data) {
-        console.log(data);
+        const transformer =  addressTransformer.fetchCollection(data);
         const organizationStore = useOrganizationStore();
-        organizationStore.setAddresses(data);
+        organizationStore.setAddresses(transformer);
         return resolve(data);
     }
 };
