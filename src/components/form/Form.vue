@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onUpdated } from 'vue';
+    import { ref, onUpdated, toRef } from 'vue';
     import Input from './Input.vue';
     import File from './File.vue';
     import Select from './Select.vue';
@@ -82,10 +82,15 @@
         }
     };
 
-    // const onSubmit = async() => {
-    //     await props.submit()
-    //     .then()
-    // };
+    const onSubmit = () => {
+        new Promise(() => { props.submit })
+        .then(() => {
+
+        })
+        .catch(() => {
+            
+        }); 
+    };
 
     let updateValue = (value: object) => {
         emit('onchangeForm', value);

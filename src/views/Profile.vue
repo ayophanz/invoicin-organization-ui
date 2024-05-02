@@ -55,7 +55,7 @@
     const onFormSave = async () => {
         submitLoading.value = true;
         form.setErrors({});
-        await services.updateProfile(form.getFormData())
+        return await services.updateProfile(form.getFormData())
         .then(() => {
             submitLoading.value = false;
             toast.success('Successfully Save!', {
