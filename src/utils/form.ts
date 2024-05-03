@@ -1,5 +1,5 @@
 export default class Form {
-    form: any;
+    form: any; 
     constructor(form: object) {
         this.form = form;
     }
@@ -38,5 +38,17 @@ export default class Form {
 
     setErrors(data: object) {
         this.form.value['errors'] = data;
+    }
+
+    setLoading(isLoad: boolean = false) {
+        this.form.value.loading = isLoad;
+    }
+
+    getLoading() {
+        return this.form.value.loading;
+    }
+
+    setOptions(name: string, options: object) {
+        this.form.value[name]['options'] = options;
     }
 }

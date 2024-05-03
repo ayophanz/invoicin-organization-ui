@@ -2,7 +2,7 @@
     <h1 class="text-2xl font-semibold">Profile</h1>
     <div class="mt-5 max-w-7xl mx-auto">
         <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
-        <Form :form="form.fields()" @onchange-form="form.updateFormData($event)" :submit="onFormSave" :submitLoading="submitLoading"></Form>
+        <Form :form="form" :submit="onFormSave"></Form>
     </div>
 </template>
 <script setup lang="ts">
@@ -18,7 +18,6 @@
     const { getProfile } = storeToRefs(organizationStore) as any;
     const toast = useToast();
 
-    const submitLoading = ref(false);
     let form = new formUtil(ref({
         logo: {
             label: 'Company logo',
@@ -53,18 +52,18 @@
     };
 
     const onFormSave = async () => {
-        submitLoading.value = true;
         form.setErrors({});
-        return await services.updateProfile(form.getFormData())
+        form.setLoading(true);
+        await services.updateProfile(form.getFormData())
         .then(() => {
-            submitLoading.value = false;
+            form.setLoading(false);
             toast.success('Successfully Save!', {
                 timeout: 2000
             });
         })
         .catch((error) => {
-            submitLoading.value = false;
             form.setErrors(error);
+            form.setLoading(false);
             toast.error('Something went wrong!', {
                 timeout: 2000
             });
