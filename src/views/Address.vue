@@ -4,10 +4,10 @@
         <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
         <div class="divide-y divide-gray-900/10">
             <dl class="space-y-6 divide-y divide-gray-900/10">
-            <Disclosure as="div" v-for="(form, index) in forms" :key="index" :class="index != '' ? 'pt-6' : ''" v-slot="{ open }">
+            <Disclosure as="div" v-for="(address, index) in addresses" :key="index" :class="index > 0 ? 'pt-6' : ''" v-slot="{ open }">
                 <div>
                     <DisclosureButton class="flex w-full items-start justify-between text-left text-gray-900">
-                        <span class="text-base font-semibold leading-7">{{ index }}</span>
+                        <span class="text-base font-semibold leading-7">{{ address.title }}</span>
                         <span class="ml-6 flex h-7 items-center">
                         <PlusIcon v-if="!open" class="h-6 w-6" aria-hidden="true" />
                         <MinusIcon v-else class="h-6 w-6" aria-hidden="true" />
@@ -15,7 +15,7 @@
                     </DisclosureButton>
                 </div>
                 <DisclosurePanel as="div" class="mt-2 pr-12">
-                    <Form :submit="onAddressesSave(index)" :form="form"></Form>
+                    <Form :submit="onAddressSave(index)" :form="address.form"></Form>
                 </DisclosurePanel>
             </Disclosure>
             </dl>
@@ -94,12 +94,10 @@
         }
     })) as any;
 
-    let forms = ref({
-        Billing: formBilling,
-        Postal: formPostal
-    });
-
-    console.log(forms.value);
+    let addresses = [
+        {form: formBilling, title: 'Billing'},
+        {form: formPostal, title: 'Postal'}
+    ];
 
     onMounted(() => {
         showForm();
@@ -109,41 +107,45 @@
     const showForm = async() => {
         await services.showAddress();
 
-        const data = {
-            country: getAddresses.value[0].country,
-            stateProvince: getAddresses.value[0].stateProvince,
-            city: getAddresses.value[0].city,
-            zipcode: getAddresses.value[0].zipcode,
-            address: getAddresses.value[0].address,
-        };
-
-        forms.value.Billing.setFormData(data);
+        let data = {};
+        getAddresses.value.forEach((item: any, key: number) => {
+            data = {
+                country:item.country,
+                stateProvince: item.stateProvince,
+                city: item.city,
+                zipcode: item.zipcode,
+                address: item.address,
+            };
+            addresses[key].form.setFormData(data); 
+        });
     };
 
     const showOptons = async () => {
         await services.countries()
         .then((response: any) => {
-            forms.value.Billing.setOptions('country', response);
+            addresses.forEach(item => {
+                item.form.setOptions('country', response);
+            });
         }).catch((error) => {
             console.log(error);
         });
     };
 
-    const onAddressesSave = (index: string) => async () => {
-        forms.value.Billing.setLoading(true);
-        forms.value.Billing.setErrors({});
-        let data = forms.value.Billing.getFormData();
-        data.type = index;
+    const onAddressSave = (index: number) => async () => {
+        addresses[index].form.setLoading(true);
+        addresses[index].form.setErrors({});
+        let data = addresses[index].form.getFormData();
+        data.type = addresses[index].title;
         await services.updateAddress(data)
         .then(() => {
-            forms.value.Billing.setLoading(false);
+            addresses[index].form.setLoading(false);
             toast.success('Successfully Save!', {
                 timeout: 2000
             });
         })
         .catch((error) => {
-            forms.value.Billing.setLoading(false);
-            forms.value.Billing.setErrors(error);
+            addresses[index].form.setLoading(false);
+            addresses[index].form.setErrors(error);
             toast.error('Something went wrong!', {
                 timeout: 2000
             });

@@ -16,7 +16,10 @@
                 </p>
                 <ul :class="menu.active == true ? 'h-full opacity-100' : 'h-0 opacity-0'" class="transition-all duration-500 px-2 overflow-hidden flex flex-col mt-2 gap-y-2">
                   <li v-for="(submenu, key2) in menu.submenu" :key="key2">
-                    <RouterLink :to="submenu.to" class="w-full block text-sm hover:bg-gray-700 rounded-md p-1 transition-all hover:text-white">{{ submenu.name }}</RouterLink>
+                    <RouterLink :to="submenu.to" :class="submenu.name == 'New' ? 'bg-gray-700 hover:bg-gray-500 text-white' : ''" class="w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-md py-1 px-2 transition-all hover:text-white">
+                      <span>{{ submenu.name }}</span>
+                      <PlusIcon v-if="submenu.name == 'New'" class="h-auto w-4"></PlusIcon>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -34,7 +37,7 @@
 </template>
 <script setup lang="ts">
     import { ref, computed } from 'vue';
-    import { ChevronDownIcon, ArrowLeftIcon } from '@heroicons/vue/outline';
+    import { ChevronDownIcon, ArrowLeftIcon, PlusIcon } from '@heroicons/vue/outline';
 
     const menuHideToggle = ref(true);
 
@@ -62,16 +65,20 @@
           active: false,
           submenu: [
             {
+                name: 'New',
+                to: '/organization/users/new',
+            },
+            {
                 name: 'All',
                 to: '/organization/users',
             },
             {
                 name: 'Active',
-                to: '/organization/users/active',
+                to: '/organization/users?filter=active',
             },
             {
                 name: 'Pending',
-                to: '/organization/users/pending'
+                to: '/organization/users?filter=pending'
             }
           ]
       }
