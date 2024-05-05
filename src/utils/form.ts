@@ -8,10 +8,12 @@ export default class Form {
         return this.form;
     }
 
-    setFormData(data: any) {
-        Object.keys(data).map((key) => {
-            this.form.value[key].value = data[key];
-        });
+    getFieldValue(name: string) {
+        return this.form.value[name].value;
+    }
+
+    getLoading() {
+        return this.form.value.loading;
     }
 
     getFormData() {
@@ -32,6 +34,12 @@ export default class Form {
         return data;
     }
 
+    setFormData(data: any) {
+        Object.keys(data).map((key) => {
+            this.form.value[key].value = data[key];
+        });
+    }
+
     updateFormData(data: {name: string, value: string}) {
         this.form.value[data.name].value = data.value;
     }
@@ -44,11 +52,11 @@ export default class Form {
         this.form.value.loading = isLoad;
     }
 
-    getLoading() {
-        return this.form.value.loading;
-    }
-
     setOptions(name: string, options: object) {
         this.form.value[name]['options'] = options;
+    }
+
+    setVisible(name: string, visible: boolean = true) {
+        this.form.value[name].visible = visible;
     }
 }

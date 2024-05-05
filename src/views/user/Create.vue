@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import Form from '../../components/form/Form.vue';
     import formUtil from '../../utils/form.js';
 
@@ -23,14 +23,37 @@
             type: 'text'
         },
         email: {
-            label: 'Email',
+            label: 'Email*',
             value: '',
             type: 'email'
+        },
+        role: {
+            label: 'Role and Permission*',
+            value: '',
+            type: 'radio',
+            options: [
+                { value: 'manager', label: 'Manager' },
+                { value: 'member', label: 'Member' }
+            ]
+        },
+        editOrganization: {
+            label: 'Edit Organization',
+            value: '',
+            type: 'checkbox',
+            visible: false
+        },
+        editCustomer: {
+            label: 'Edit Customer',
+            value: '',
+            type: 'checkbox',
+            visible: false
         }
     }));
 
     const onFormSave = () => {
-
+        console.log(form.getFieldValue('role'));
+        form.setVisible('editOrganization', true);
+        form.setVisible('editCustomer', true);
     };
 
 </script>

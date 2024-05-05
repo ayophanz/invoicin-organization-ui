@@ -1,4 +1,4 @@
-const beforeEach = async (to, from, next) => {
+const beforeEach = (to, from, next) => {
     next();
 }
 

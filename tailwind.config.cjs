@@ -12,6 +12,6 @@ module.exports = {
 		preflight: true
 	},
   plugins: [
-    //
+    require('@tailwindcss/forms'),
   ],
 }
