@@ -6,7 +6,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { onMounted, ref } from 'vue';
+    import { onMounted, reactive } from 'vue';
     import Form from '../components/form/Form.vue';
     import services from '../services';
     import { useToast } from 'vue-toastification';
@@ -18,7 +18,7 @@
     const { getProfile } = storeToRefs(organizationStore) as any;
     const toast = useToast();
 
-    let form = new formUtil(ref({
+    let form = reactive(new formUtil({
         logo: {
             label: 'Company logo',
             value: null,

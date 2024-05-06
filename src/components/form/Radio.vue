@@ -5,8 +5,8 @@
             <fieldset class="mt-2">
                 <div class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                     <div v-for="(option, key) in options" :key="key" class="flex items-center">
-                        <input :id="option.value" :name="name" type="radio" v-model="radio" :checked="option.value === value" class="h-4 w-4 border-gray-300 cursor-pointer text-indigo-600 focus:ring-indigo-600" />
-                        <label :for="option.value" class="block text-sm font-medium cursor-pointer pl-3 text-gray-900">{{ option.label }}</label>
+                        <input :id="key.toString()" :name="name" type="radio" v-model="radio" :value="option.value" :checked="option.value === radio" class="h-4 w-4 border-gray-300 cursor-pointer text-indigo-600 focus:ring-indigo-600" />
+                        <label :for="key.toString()" class="block text-sm font-medium cursor-pointer pl-3 text-gray-900">{{ option.label }}</label>
                     </div>
                 </div>
             </fieldset>

@@ -7,11 +7,11 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, watch } from 'vue';
+    import { reactive, watch } from 'vue';
     import Form from '../../components/form/Form.vue';
     import formUtil from '../../utils/form.js';
 
-    let form = new formUtil(ref({
+    let form = reactive(new formUtil({
         firstname: {
             label: 'Firstname*',
             value: '',
@@ -50,10 +50,18 @@
         }
     }));
 
+    watch(form, (form) => {
+        if (form.getFieldValue('role') == 'member') {
+            form.setVisible('editOrganization', true);
+            form.setVisible('editCustomer', true);
+        } else {
+            form.setVisible('editOrganization', false);
+            form.setVisible('editCustomer', false);
+        }
+    });
+
     const onFormSave = () => {
-        console.log(form.getFieldValue('role'));
-        form.setVisible('editOrganization', true);
-        form.setVisible('editCustomer', true);
+        //
     };
 
 </script>

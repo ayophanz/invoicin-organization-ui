@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { onMounted, reactive } from 'vue';
     import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
     import { MinusIcon, PlusIcon } from '@heroicons/vue/outline';
     import Form from '../components/form/Form.vue';
@@ -38,7 +38,7 @@
     const organizationStore = useOrganizationStore();
     const { getAddresses } = storeToRefs(organizationStore) as any;
 
-    let formBilling = new formUtil(ref({
+    let formBilling = reactive(new formUtil({
         country: {
             label: 'Country*',
             value: '',
@@ -66,7 +66,7 @@
         }
     })) as any;
 
-    let formPostal = new formUtil(ref({
+    let formPostal = reactive(new formUtil({
         country: {
             label: 'Country*',
             value: '',

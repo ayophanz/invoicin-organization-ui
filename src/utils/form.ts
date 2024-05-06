@@ -9,26 +9,26 @@ export default class Form {
     }
 
     getFieldValue(name: string) {
-        return this.form.value[name].value;
+        return this.form[name].value;
     }
 
     getLoading() {
-        return this.form.value.loading;
+        return this.form.loading;
     }
 
     getFormData() {
         let data = {};
-        Object.keys(this.form.value).map((key) => {
-            if (this.form.value[key].type === 'file') {
+        Object.keys(this.form).map((key) => {
+            if (this.form[key].type === 'file') {
                 let files = [] as any;
-                if (this.form.value[key].value) {
-                    this.form.value[key].value.forEach((item: any, key: number) => {
+                if (this.form[key].value) {
+                    this.form[key].value.forEach((item: any, key: number) => {
                         files[key] = item.getFileEncodeBase64String();
                     });
                 }
                 data[key] = files;
             } else {
-                data[key] = this.form.value[key].value;
+                data[key] = this.form[key].value;
             }
         });
         return data;
@@ -36,27 +36,27 @@ export default class Form {
 
     setFormData(data: any) {
         Object.keys(data).map((key) => {
-            this.form.value[key].value = data[key];
+            this.form[key].value = data[key];
         });
     }
 
     updateFormData(data: {name: string, value: string}) {
-        this.form.value[data.name].value = data.value;
+        this.form[data.name].value = data.value;
     }
 
     setErrors(data: object) {
-        this.form.value['errors'] = data;
+        this.form['errors'] = data;
     }
 
     setLoading(isLoad: boolean = false) {
-        this.form.value.loading = isLoad;
+        this.form.loading = isLoad;
     }
 
     setOptions(name: string, options: object) {
-        this.form.value[name]['options'] = options;
+        this.form[name]['options'] = options;
     }
 
     setVisible(name: string, visible: boolean = true) {
-        this.form.value[name].visible = visible;
+        this.form[name].visible = visible;
     }
 }
