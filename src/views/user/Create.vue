@@ -10,15 +10,14 @@
     import { reactive, watch } from 'vue';
     import Form from '../../components/form/Form.vue';
     import formUtil from '../../utils/form.js';
+    import services from '../../services';
+    import { useToast } from 'vue-toastification';
+
+    const toast = useToast();
 
     let form = reactive(new formUtil({
         firstname: {
             label: 'Firstname*',
-            value: '',
-            type: 'text'
-        },
-        lastname: {
-            label: 'Lastname*',
             value: '',
             type: 'text'
         },
@@ -47,6 +46,12 @@
             value: '',
             type: 'checkbox',
             visible: false
+        },
+        editProduct: {
+            label: 'Edit Product',
+            value: '',
+            type: 'checkbox',
+            visible: false
         }
     }));
 
@@ -54,14 +59,31 @@
         if (form.getFieldValue('role') == 'member') {
             form.setVisible('editOrganization', true);
             form.setVisible('editCustomer', true);
+            form.setVisible('editProduct', true);
         } else {
             form.setVisible('editOrganization', false);
             form.setVisible('editCustomer', false);
+            form.setVisible('editProduct', false);
         }
     });
 
-    const onFormSave = () => {
-        //
+    const onFormSave = async () => {
+        form.setLoading(true);
+        form.setErrors({});
+        await services.storeUser(form.getFormData())
+        .then(() => {
+            form.setLoading(false);
+            toast.success('Successfully Save!', {
+                timeout: 2000
+            });
+        })
+        .catch((error) => {
+            form.setLoading(false);
+            form.setErrors(error);
+            toast.error('Something went wrong!', {
+                timeout: 2000
+            });
+        });
     };
 
 </script>
