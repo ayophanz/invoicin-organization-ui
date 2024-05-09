@@ -35,20 +35,20 @@
                 { value: 'member', label: 'Member' }
             ]
         },
-        editOrganization: {
-            label: 'Edit Organization',
+        accessOrganization: {
+            label: 'Access Organization',
             value: '',
             type: 'checkbox',
             visible: false
         },
-        editCustomer: {
-            label: 'Edit Customer',
+        accessCustomer: {
+            label: 'Access Customer',
             value: '',
             type: 'checkbox',
             visible: false
         },
-        editProduct: {
-            label: 'Edit Product',
+        accessProduct: {
+            label: 'Access Product',
             value: '',
             type: 'checkbox',
             visible: false
@@ -57,13 +57,13 @@
 
     watch(form, (form) => {
         if (form.getFieldValue('role') == 'member') {
-            form.setVisible('editOrganization', true);
-            form.setVisible('editCustomer', true);
-            form.setVisible('editProduct', true);
+            form.setVisible('accessOrganization', true);
+            form.setVisible('accessCustomer', true);
+            form.setVisible('accessProduct', true);
         } else {
-            form.setVisible('editOrganization', false);
-            form.setVisible('editCustomer', false);
-            form.setVisible('editProduct', false);
+            form.setVisible('accessOrganization', false);
+            form.setVisible('accessCustomer', false);
+            form.setVisible('accessProduct', false);
         }
     });
 

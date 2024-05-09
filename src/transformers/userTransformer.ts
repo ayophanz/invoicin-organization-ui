@@ -15,9 +15,9 @@ export default class UserTransformer extends Transformer {
       lastname: item.last_name,
       email: item.email,
       role: item.role,
-      editOrganization: item.edit_organization,
-      editCustomer: item.edit_customer,
-      editProduct: item.edit_product,
+      accessOrganization: item.access_organization,
+      accessCustomer: item.access_customer,
+      accessProduct: item.access_product,
     };
   }
 
@@ -27,9 +27,9 @@ export default class UserTransformer extends Transformer {
       last_name: item.lastname,
       email: item.email,
       role: item.role,
-      edit_organization: item.editOrganization,
-      edit_customer: item.editCustomer,
-      edit_product: item.editProduct
+      access_organization: item.accessOrganization,
+      access_customer: item.accessCustomer,
+      access_product: item.accessProduct
     };
   }
 }
