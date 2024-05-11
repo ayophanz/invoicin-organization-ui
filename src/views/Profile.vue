@@ -15,7 +15,7 @@ import { storeToRefs } from "pinia";
 import formUtil from "../utils/form.js";
 
 const organizationStore = useOrganizationStore();
-const { getProfile } = storeToRefs(organizationStore) as any;
+const { getProfile } = storeToRefs(organizationStore);
 const toast = useToast();
 
 let form = reactive(
