@@ -5,16 +5,17 @@
  * The transformer for the user.
  */
 
-import Transformer from './transformer';
+import Transformer from "./transformer";
 
 export default class UserTransformer extends Transformer {
-
   static fetch(item: any) {
     return {
+      id: item.id,
       firstname: item.first_name,
       lastname: item.last_name,
+      image: item.image,
       email: item.email,
-      role: item.role,
+      roles: item.roles,
       accessOrganization: item.access_organization,
       accessCustomer: item.access_customer,
       accessProduct: item.access_product,
@@ -29,7 +30,7 @@ export default class UserTransformer extends Transformer {
       role: item.role,
       access_organization: item.accessOrganization,
       access_customer: item.accessCustomer,
-      access_product: item.accessProduct
+      access_product: item.accessProduct,
     };
   }
 }

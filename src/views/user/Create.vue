@@ -79,6 +79,7 @@ const onFormSave = async () => {
   await services
     .storeUser(form.getFormData())
     .then(() => {
+      form.reset();
       form.setLoading(false);
       toast.success("Successfully Save!", {
         timeout: 2000,

@@ -21,7 +21,7 @@
       <li
         v-for="(menu, key) in menus"
         :key="key"
-        class="transition-opacity relative flex justify-between gap-x-1 py-2"
+        class="relative flex justify-between gap-x-1 py-2 transition-all duration-700"
       >
         <div class="flex w-full gap-x-4">
           <div class="min-w-0 flex-auto">
@@ -35,10 +35,8 @@
               </a>
             </p>
             <ul
-              :class="
-                menu.active == true ? 'h-full opacity-100' : 'h-0 opacity-0'
-              "
-              class="transition-all duration-500 px-2 overflow-hidden flex flex-col mt-2 gap-y-2"
+              :class="menu.active == true ? 'flex' : 'hidden'"
+              class="px-2 flex flex-col mt-2 gap-y-2 overflow-hidden transition-all duration-700"
             >
               <li v-for="(submenu, key2) in menu.submenu" :key="key2">
                 <RouterLink
@@ -79,15 +77,17 @@
   </aside>
 </template>
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import {
   ChevronDownIcon,
   ArrowLeftIcon,
   PlusIcon,
 } from "@heroicons/vue/outline";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const menuHideToggle = ref(true);
-
 const menus = ref([
   {
     name: "General",
@@ -130,6 +130,32 @@ const menus = ref([
     ],
   },
 ]);
+
+onMounted(() => {
+  currentMenu();
+});
+
+watch(route, () => {
+  currentMenu();
+});
+
+const currentMenu = () => {
+  const path = window.location.pathname.split("/");
+  if (path && path[2] && path[2] == "users") {
+    mapMenu("Users");
+  } else {
+    mapMenu("General");
+  }
+};
+
+const mapMenu = (name: string) => {
+  menus.value.forEach((item, key) => {
+    menus.value[key].active = false;
+  });
+
+  const key = menus.value.findIndex((x: { name: string }) => x.name === name);
+  menus.value[key].active = true;
+};
 
 const menuHide = () => {
   menuHideToggle.value = !menuHideToggle.value;
