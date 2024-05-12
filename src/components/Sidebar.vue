@@ -120,12 +120,12 @@ const menus = ref([
         to: "/organization/users",
       },
       {
-        name: "Active",
-        to: "/organization/users?filter=active",
+        name: "Verified",
+        to: "/organization/users?sort=verified",
       },
       {
         name: "Pending",
-        to: "/organization/users?filter=pending",
+        to: "/organization/users?sort=pending",
       },
     ],
   },

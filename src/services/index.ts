@@ -4,12 +4,14 @@ import showProfile from "./showProfile";
 import showAddress from "./showAddress";
 import updateAddress from "./updateAddress";
 import storeUser from "./storeUser";
+import users from "./users";
 
 export default {
-    countries,
-    showProfile,
-    showAddress,
-    updateProfile,
-    updateAddress,
-    storeUser
-}
+  countries,
+  showProfile,
+  showAddress,
+  updateProfile,
+  updateAddress,
+  storeUser,
+  users,
+};
