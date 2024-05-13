@@ -15,6 +15,8 @@ export default class UserTransformer extends Transformer {
       lastname: item.last_name,
       image: item.image,
       email: item.email,
+      emailVerified: item.email_verified_at,
+      createdAt: item.created_at,
       roles: item.roles,
       accessOrganization: item.access_organization,
       accessCustomer: item.access_customer,

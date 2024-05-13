@@ -21,17 +21,21 @@
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
         <tr
-          v-for="(row, key) in body"
+          v-for="(row, key) in props.body"
           :key="key"
           @click="linkTo(row['linkTo'].toString())"
           class="hover:bg-gray-200 cursor-pointer"
         >
           <td
-            v-for="(column, key2) in row"
+            v-for="(column, key2, i) in row"
             :key="key2"
             :class="[
-              key2.toString() == 'linkTo' ? 'hidden' : '',
-              'whitespace-nowrap text-sm text-gray-500 px-3 py-4',
+              'whitespace-nowrap text-sm text-gray-500 py-4 px-3',
+              key2.toString() == 'linkTo' || i + 1 > props.head.length
+                ? 'hidden'
+                : '',
+              i == 0 ? 'pl-4 sm:pl-6 pr-3' : '',
+              i == props.head.length - 1 ? 'pr-4 sm:pr-6 pl-3' : '',
             ]"
           >
             <div v-html="column"></div>

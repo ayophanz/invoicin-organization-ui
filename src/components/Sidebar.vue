@@ -41,7 +41,7 @@
               <li v-for="(submenu, key2) in menu.submenu" :key="key2">
                 <RouterLink
                   :to="submenu.to"
-                  class="w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-md py-1 px-2 transition-all hover:text-white"
+                  class="w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-full py-1 px-2 transition-all hover:text-white"
                 >
                   <span>{{ submenu.name }}</span>
                 </RouterLink>
