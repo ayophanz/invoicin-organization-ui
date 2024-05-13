@@ -1,22 +1,31 @@
 <template>
   <h1 class="text-2xl font-semibold">Users</h1>
+  <div class="flex justify-between my-2">
+    <div></div>
+    <Button @click="onNew">
+      <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
+    >
+  </div>
   <div class="mt-5">
     <TableList :head="headCol" :body="body"></TableList>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, computed, Component } from "vue";
+import { onMounted, watch, computed } from "vue";
+import { PlusIcon } from "@heroicons/vue/outline";
 import TableList from "../../components/TableList.vue";
+import Button from "../../components/Button.vue";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const organizationStore = useOrganizationStore();
 const { getUsers } = storeToRefs(organizationStore);
-const headCol = ["Image", "First Name", "Last Name", "Email", "Role", ""];
+const headCol = ["Image", "First Name", "Last Name", "Email", "Role"];
 
 onMounted(async () => {
   await services.users(window.location.search);
@@ -41,12 +50,12 @@ const body = computed(() => {
       lastname: user.lastname,
       email: user.email,
       role: user.roles[0],
-      link: { to: `/organization/users/${user.id}`, title: "Edit" },
+      linkTo: `/organization/users/${user.id}`,
     })
   );
 });
 
-const onEdit = (id: number) => {
-  console.log(id);
+const onNew = () => {
+  router.push({ path: "/organization/users/new" });
 };
 </script>

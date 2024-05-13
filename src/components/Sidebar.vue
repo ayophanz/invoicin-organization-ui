@@ -41,18 +41,9 @@
               <li v-for="(submenu, key2) in menu.submenu" :key="key2">
                 <RouterLink
                   :to="submenu.to"
-                  :class="
-                    submenu.name == 'New'
-                      ? 'bg-gray-700 hover:bg-gray-500 text-white'
-                      : ''
-                  "
                   class="w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-md py-1 px-2 transition-all hover:text-white"
                 >
                   <span>{{ submenu.name }}</span>
-                  <PlusIcon
-                    v-if="submenu.name == 'New'"
-                    class="h-auto w-4"
-                  ></PlusIcon>
                 </RouterLink>
               </li>
             </ul>
@@ -78,11 +69,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
-import {
-  ChevronDownIcon,
-  ArrowLeftIcon,
-  PlusIcon,
-} from "@heroicons/vue/outline";
+import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/vue/outline";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -111,10 +98,6 @@ const menus = ref([
     name: "Users",
     active: false,
     submenu: [
-      {
-        name: "New",
-        to: "/organization/users/new",
-      },
       {
         name: "All",
         to: "/organization/users",

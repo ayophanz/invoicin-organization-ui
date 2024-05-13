@@ -20,18 +20,21 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
-        <tr v-for="(row, key) in body" :key="key">
+        <tr
+          v-for="(row, key) in body"
+          :key="key"
+          @click="linkTo(row['linkTo'].toString())"
+          class="hover:bg-gray-200 cursor-pointer"
+        >
           <td
             v-for="(column, key2) in row"
             :key="key2"
-            class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+            :class="[
+              key2.toString() == 'linkTo' ? 'hidden' : '',
+              'whitespace-nowrap text-sm text-gray-500 px-3 py-4',
+            ]"
           >
-            <div v-if="key2.toString() == 'link'">
-              <RouterLink :to="column.to.toString()">{{
-                column.title.toString()
-              }}</RouterLink>
-            </div>
-            <div v-else v-html="column"></div>
+            <div v-html="column"></div>
           </td>
         </tr>
       </tbody>
@@ -40,6 +43,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
   head: {
     type: Array<String>,
@@ -54,4 +60,8 @@ const props = defineProps({
     required: false,
   },
 });
+
+const linkTo = (to: string) => {
+  router.push({ path: to });
+};
 </script>
