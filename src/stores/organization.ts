@@ -2,23 +2,27 @@ import { defineStore } from "pinia";
 
 export const useOrganizationStore = defineStore("organization", {
   state: () => ({
-    _profile: [],
+    _profile: {},
     _addresses: [],
     _statusCode: 200,
     _users: [],
+    _pagination: {},
   }),
   actions: {
-    setProfile(data: object) {
+    setProfile(data: Object) {
       this._profile = data;
     },
-    setAddresses(data: object) {
+    setAddresses(data: Array<any>) {
       this._addresses = data;
     },
     setStatusCode(statusCode: number) {
       this._statusCode = statusCode;
     },
-    setUsers(data: object) {
+    setUsers(data: Array<any>) {
       this._users = data;
+    },
+    setPagination(data: Object) {
+      this._pagination = data;
     },
   },
   getters: {
@@ -33,6 +37,9 @@ export const useOrganizationStore = defineStore("organization", {
     },
     getUsers() {
       return this._users;
+    },
+    getPagination() {
+      return this._pagination;
     },
   },
 });

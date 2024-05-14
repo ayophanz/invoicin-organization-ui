@@ -2,12 +2,14 @@ import axios from "../plugins/axios";
 import UserTransformer from "../transformers/userTransformer";
 import { useOrganizationStore } from "../stores/organization";
 
-const success = (data: object, resolve: any) => {
-  if (data) {
-    const transformer = UserTransformer.fetchCollection(data);
+const success = (response: { data: object; meta: object }, resolve: any) => {
+  if (response.data) {
+    const transformer = UserTransformer.fetchCollection(response.data);
     const organizationStore = useOrganizationStore();
     organizationStore.setUsers(transformer);
-    return resolve(data);
+    if (response.meta) organizationStore.setPagination(response.meta);
+
+    return resolve(response.data);
   }
 };
 
@@ -19,8 +21,8 @@ export default (params = "") => {
   return new Promise((resolve, reject) => {
     axios
       .get(`api/users${params}`)
-      .then((response: { data: { data: object } }) => {
-        success(response.data.data, resolve);
+      .then((response: { data: { data: object; meta: object } }) => {
+        success(response.data, resolve);
       })
       .catch((error: { response: { data: { errors: object } } }) => {
         fail(error.response.data.errors, reject);

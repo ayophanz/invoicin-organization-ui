@@ -23,15 +23,17 @@
         <tr
           v-for="(row, key) in props.body"
           :key="key"
-          @click="linkTo(row['linkTo'].toString())"
-          class="hover:bg-gray-200 cursor-pointer"
+          @click="linkTo(row['linkTo'] ? row['linkTo'].toString() : '')"
+          :class="[
+            props.clickableRow ? 'hover:bg-gray-200 cursor-pointer' : '',
+          ]"
         >
           <td
             v-for="(column, key2, i) in row"
-            :key="key2"
+            :key="i + 1"
             :class="[
               'whitespace-nowrap text-sm text-gray-500 py-4 px-3',
-              key2.toString() == 'linkTo' || i + 1 > props.head.length
+              key2.toString() == 'linkTo' || i > props.head.length - 1
                 ? 'hidden'
                 : '',
               i == 0 ? 'pl-4 sm:pl-6 pr-3' : '',
@@ -62,10 +64,11 @@ const props = defineProps({
   clickableRow: {
     type: Boolean,
     required: false,
+    default: false,
   },
 });
 
 const linkTo = (to: string) => {
-  router.push({ path: to });
+  if (props.clickableRow) router.push({ path: to });
 };
 </script>

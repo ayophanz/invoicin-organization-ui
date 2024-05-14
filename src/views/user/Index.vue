@@ -30,8 +30,13 @@
     >
   </div>
   <div class="mt-5">
-    <TableList v-if="tableView" :head="headCol" :body="body"></TableList>
-    <CardList v-else :body="body"></CardList>
+    <TableList
+      v-if="tableView"
+      :head="tableHead"
+      :body="tableBody"
+      :clickableRow="true"
+    ></TableList>
+    <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
   </div>
 </template>
 
@@ -49,20 +54,47 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const organizationStore = useOrganizationStore();
-const { getUsers } = storeToRefs(organizationStore);
-const headCol = ["Image", "First Name", "Last Name", "Email", "Role"];
+const { getUsers, getPagination } = storeToRefs(organizationStore);
+const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
+const cardLabel = ["", "", "Email", "Verified", "Role"];
 const tableView = ref(true);
 
-onMounted(async () => {
-  await services.users(window.location.search);
-  console.log(getUsers.value);
+onMounted(() => {
+  urlChange();
 });
 
-watch(route, async () => {
-  await services.users(window.location.search);
+watch(route, () => {
+  urlChange();
 });
 
-const body = computed(() => {
+const urlChange = async () => {
+  await services.users(window.location.search);
+  console.log(getPagination.value);
+  if (route.query.view && route.query.view == "card") tableView.value = false;
+  if (route.query.view && route.query.view == "table") tableView.value = true;
+};
+
+const tableBody = computed(() => {
+  return getUsers.value.map(
+    (user: {
+      image: string;
+      firstname: string;
+      lastname: string;
+      email: string;
+      roles: string;
+      id: string;
+    }) => ({
+      image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      role: user.roles[0],
+      linkTo: `/organization/users/${user.id}`,
+    })
+  );
+});
+
+const cardBody = computed(() => {
   return getUsers.value.map(
     (user: {
       image: string;
@@ -72,15 +104,14 @@ const body = computed(() => {
       roles: string;
       id: string;
       emailVerified: string;
-      createdAt: string;
     }) => ({
-      image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      role: user.roles[0],
-      emailVerified: user.emailVerified,
-      createdAt: user.createdAt,
+      image: `<img src="${user.image}" class="max-h-12 max-w-12 rounded-full object-cover"/>`,
+      name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
+      email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
+      emailVerified: `<span class="text-gray-500 text-sm">${
+        user.emailVerified ?? "Pending"
+      }</span>`,
+      role: `<span class="text-gray-500 text-sm">${user.roles[0]}</span>`,
       linkTo: `/organization/users/${user.id}`,
     })
   );
@@ -88,6 +119,9 @@ const body = computed(() => {
 
 const onTableView = (isTable: boolean) => {
   tableView.value = isTable;
+  let view = "table";
+  if (!isTable) view = "card";
+  router.replace({ query: { view: view } });
 };
 
 const onNew = () => {
