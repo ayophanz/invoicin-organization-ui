@@ -22,30 +22,6 @@
           <div v-html="item"></div>
         </div>
       </div>
-      <!-- <div class="pt-4">
-        <div class="font-bold text-xl mb-2">
-          <h3>{{ item.firstname }}, {{ item.lastname }}</h3>
-        </div>
-        <p class="text-gray-700 text-sm mb-1">
-          Verified:
-          <span class="font-semibold">{{
-            item.emailVerified ?? "Pending"
-          }}</span>
-        </p>
-        <p class="text-gray-700 text-sm mb-1">
-          Email: <span class="font-semibold">{{ item.email }}</span>
-        </p>
-        <p class="text-gray-700 text-sm mb-1">
-          Created:
-          <span class="font-semibold">{{ item.createdAt ?? "None" }}</span>
-        </p>
-      </div> -->
-      <!-- <div class="pt-4">
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-          >{{ item.role }}</span
-        >
-      </div> -->
     </div>
   </div>
 </template>

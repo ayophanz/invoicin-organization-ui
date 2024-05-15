@@ -37,6 +37,12 @@
       :clickableRow="true"
     ></TableList>
     <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
+    <div v-if="getPagination" class="mt-5">
+      <Pagination
+        :paginate="getPagination"
+        @onchange-page="changePage"
+      ></Pagination>
+    </div>
   </div>
 </template>
 
@@ -46,6 +52,7 @@ import { PlusIcon, ViewGridIcon, ViewListIcon } from "@heroicons/vue/outline";
 import TableList from "../../components/TableList.vue";
 import CardList from "../../components/CardList.vue";
 import Button from "../../components/Button.vue";
+import Pagination from "../../components/Pagination.vue";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
@@ -69,9 +76,30 @@ watch(route, () => {
 
 const urlChange = async () => {
   await services.users(window.location.search);
-  console.log(getPagination.value);
   if (route.query.view && route.query.view == "card") tableView.value = false;
   if (route.query.view && route.query.view == "table") tableView.value = true;
+};
+
+const changePage = (page: string | null) => {
+  let query = route.query;
+  query.page = page;
+  console.log(query);
+  router.replace({
+    query: query,
+  });
+};
+
+const onTableView = (isTable: boolean) => {
+  tableView.value = isTable;
+  let view = "table";
+  if (!isTable) view = "card";
+
+  let query = route.query;
+  query.view = view;
+  console.log(query);
+  router.replace({
+    query: query,
+  });
 };
 
 const tableBody = computed(() => {
@@ -116,13 +144,6 @@ const cardBody = computed(() => {
     })
   );
 });
-
-const onTableView = (isTable: boolean) => {
-  tableView.value = isTable;
-  let view = "table";
-  if (!isTable) view = "card";
-  router.replace({ query: { view: view } });
-};
 
 const onNew = () => {
   router.push({ path: "/organization/users/new" });

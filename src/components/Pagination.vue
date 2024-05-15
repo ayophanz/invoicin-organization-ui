@@ -2,86 +2,69 @@
   <nav
     class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0"
   >
-    <div v-if="props.prev" class="-mt-px flex w-0 flex-1">
+    <div class="-mt-px flex w-0 flex-1">
       <a
-        href="#"
+        href="javascript:;"
+        v-if="props.paginate.links && props.paginate.links[0].url != null"
+        @click="navigate(props.paginate.links[0].url)"
         class="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
       >
-        <ArrowLongLeftIcon
-          class="mr-3 h-5 w-5 text-gray-400"
-          aria-hidden="true"
-        />
+        <ArrowLeftIcon class="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
         Previous
       </a>
     </div>
     <div class="hidden md:-mt-px md:flex">
       <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-        >1</a
-      >
-      <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-      <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600"
-        aria-current="page"
-        >2</a
-      >
-      <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-        >3</a
-      >
-      <span
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500"
-        >...</span
-      >
-      <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-        >8</a
-      >
-      <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-        >9</a
-      >
-      <a
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-        >10</a
+        href="javascript:;"
+        v-for="(link, key) in props.paginate.links"
+        @click="navigate(link.url)"
+        :key="key"
+        :class="[
+          key == 0 || key == props.paginate.links.length - 1 ? 'hidden' : '',
+          link.active
+            ? 'border-indigo-500 text-indigo-600'
+            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+          'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium',
+        ]"
+        >{{ link.label }}</a
       >
     </div>
-    <div v-if="props.next" class="-mt-px flex w-0 flex-1 justify-end">
+    <div class="-mt-px flex w-0 flex-1 justify-end">
       <a
-        href="#"
+        href="javascript:;"
+        v-if="
+          props.paginate.links &&
+          props.paginate.links[props.paginate.links.length - 1].url != null
+        "
+        @click="
+          navigate(props.paginate.links[props.paginate.links.length - 1].url)
+        "
         class="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
       >
         Next
-        <ArrowLongRightIcon
-          class="ml-3 h-5 w-5 text-gray-400"
-          aria-hidden="true"
-        />
+        <ArrowRightIcon class="ml-3 h-5 w-5 text-gray-400" aria-hidden="true" />
       </a>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from "@heroicons/vue/20/solid";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/vue/solid";
 
+const emit = defineEmits(["onchangePage"]);
 const props = defineProps({
-  links: {
-    type: Array,
+  paginate: {
+    type: Object,
     required: true,
   },
-  next: {
-    type: String,
-    required: false,
-  },
-  prev: {
-    type: String,
-    required: false,
-  },
 });
+
+const navigate = (url: string | null) => {
+  if (url != null) {
+    const params = new URL(url).searchParams;
+    if (params.has("page")) {
+      emit("onchangePage", params.get("page"));
+    }
+  }
+};
 </script>
