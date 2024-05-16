@@ -20,7 +20,16 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
+        <tr v-if="props.loading">
+          <td
+            :colspan="props.head.length"
+            class="text-center py-5 border-collapse"
+          >
+            <Spinner class="m-auto w-full"></Spinner>
+          </td>
+        </tr>
         <tr
+          v-else
           v-for="(row, key) in props.body"
           :key="key"
           @click="linkTo(row['linkTo'] ? row['linkTo'].toString() : '')"
@@ -50,6 +59,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import Spinner from "./Spinner.vue";
 
 const router = useRouter();
 const props = defineProps({
@@ -65,6 +75,10 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  loading: {
+    type: Boolean,
+    required: false,
   },
 });
 

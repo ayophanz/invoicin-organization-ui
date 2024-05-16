@@ -1,30 +1,11 @@
 <template>
   <h1 class="text-2xl font-semibold">Users</h1>
   <div class="flex justify-between items-center my-2">
-    <div
-      class="flex divide-x divide-gray-700 border border-gray-700 h-full items-center justify-center rounded-full overflow-hidden"
-    >
-      <a
-        href="javascript:;"
-        @click="onTableView(false)"
-        :class="[
-          !tableView ? 'bg-gray-700 text-white' : '',
-          'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
-        ]"
-      >
-        <ViewGridIcon class="h-4 w-4"></ViewGridIcon>
-      </a>
-      <a
-        href="javascript:;"
-        @click="onTableView(true)"
-        :class="[
-          tableView ? 'bg-gray-700 text-white' : '',
-          'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
-        ]"
-      >
-        <ViewListIcon class="h-4 w-4"></ViewListIcon>
-      </a>
-    </div>
+    <ViewType
+      :tableYes="onTableView"
+      :tableNo="onTableView"
+      :isTable="tableView"
+    ></ViewType>
     <Button @click="onNew">
       <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
     >
@@ -35,6 +16,7 @@
       :head="tableHead"
       :body="tableBody"
       :clickableRow="true"
+      :loading="loading"
     ></TableList>
     <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
     <div v-if="getPagination" class="mt-5">
@@ -48,11 +30,12 @@
 
 <script setup lang="ts">
 import { onMounted, watch, computed, ref } from "vue";
-import { PlusIcon, ViewGridIcon, ViewListIcon } from "@heroicons/vue/outline";
+import { PlusIcon } from "@heroicons/vue/outline";
 import TableList from "../../components/TableList.vue";
 import CardList from "../../components/CardList.vue";
 import Button from "../../components/Button.vue";
 import Pagination from "../../components/Pagination.vue";
+import ViewType from "../../components/ViewType.vue";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
@@ -62,9 +45,11 @@ const route = useRoute();
 const router = useRouter();
 const organizationStore = useOrganizationStore();
 const { getUsers, getPagination } = storeToRefs(organizationStore);
+
 const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "Email", "Verified", "Role"];
 const tableView = ref(true);
+const loading = ref(false);
 
 onMounted(() => {
   urlChange();
@@ -75,30 +60,40 @@ watch(route, () => {
 });
 
 const urlChange = async () => {
-  await services.users(window.location.search);
-  if (route.query.view && route.query.view == "card") tableView.value = false;
-  if (route.query.view && route.query.view == "table") tableView.value = true;
+  loading.value = true;
+  await services
+    .users(window.location.search)
+    .then(() => {
+      loading.value = false;
+      if (route.query.view && route.query.view == "card")
+        tableView.value = false;
+      if (route.query.view && route.query.view == "table")
+        tableView.value = true;
+    })
+    .catch(() => {
+      loading.value = false;
+    });
 };
 
-const changePage = (page: string | null) => {
-  let query = route.query;
-  query.page = page;
-  console.log(query);
+const changePage = async (page: string | null) => {
   router.replace({
-    query: query,
+    query: {
+      ...route.query,
+      page: page,
+    },
   });
 };
 
-const onTableView = (isTable: boolean) => {
-  tableView.value = isTable;
+const onTableView = (table: boolean) => {
+  tableView.value = table;
   let view = "table";
-  if (!isTable) view = "card";
+  if (!table) view = "card";
 
-  let query = route.query;
-  query.view = view;
-  console.log(query);
   router.replace({
-    query: query,
+    query: {
+      ...route.query,
+      view: view,
+    },
   });
 };
 
