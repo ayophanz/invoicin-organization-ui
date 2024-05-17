@@ -6,6 +6,7 @@ export const useOrganizationStore = defineStore("organization", {
     _addresses: [],
     _statusCode: 200,
     _users: [],
+    _user: {},
     _pagination: {},
   }),
   actions: {
@@ -20,6 +21,9 @@ export const useOrganizationStore = defineStore("organization", {
     },
     setUsers(data: Array<any>) {
       this._users = data;
+    },
+    setUser(data: Object) {
+      this._user = data;
     },
     setPagination(data: Object) {
       this._pagination = data;
@@ -37,6 +41,9 @@ export const useOrganizationStore = defineStore("organization", {
     },
     getUsers() {
       return this._users;
+    },
+    getUser() {
+      return this._user;
     },
     getPagination() {
       return this._pagination;

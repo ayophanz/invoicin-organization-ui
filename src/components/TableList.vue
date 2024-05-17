@@ -20,20 +20,20 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
-        <tr v-if="props.loading">
+        <tr :class="props.loading ? 'visible' : 'collapse'">
           <td
             :colspan="props.head.length"
-            class="text-center py-5 border-collapse"
+            class="whitespace-nowrap text-sm px-4 sm:px-6 text-center py-5"
           >
             <Spinner class="m-auto w-full"></Spinner>
           </td>
         </tr>
         <tr
-          v-else
           v-for="(row, key) in props.body"
           :key="key"
           @click="linkTo(row['linkTo'] ? row['linkTo'].toString() : '')"
           :class="[
+            !props.loading ? 'visible' : 'collapse',
             props.clickableRow ? 'hover:bg-gray-200 cursor-pointer' : '',
           ]"
         >

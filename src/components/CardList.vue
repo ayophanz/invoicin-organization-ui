@@ -39,6 +39,10 @@ const props = defineProps({
     type: Array<any>,
     required: true,
   },
+  loading: {
+    type: Boolean,
+    required: false,
+  },
 });
 
 const linkTo = (to: string) => {

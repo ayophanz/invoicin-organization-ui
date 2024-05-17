@@ -69,7 +69,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
-import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/vue/outline";
+import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/vue/24/outline";
 import { useRoute } from "vue-router";
 
 const route = useRoute();

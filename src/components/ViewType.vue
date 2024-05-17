@@ -10,7 +10,7 @@
         'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
       ]"
     >
-      <ViewGridIcon class="h-4 w-4"></ViewGridIcon>
+      <Squares2X2Icon class="h-4 w-4"></Squares2X2Icon>
     </a>
     <a
       href="javascript:;"
@@ -20,13 +20,13 @@
         'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
       ]"
     >
-      <ViewListIcon class="h-4 w-4"></ViewListIcon>
+      <Bars3Icon class="h-4 w-4"></Bars3Icon>
     </a>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ViewGridIcon, ViewListIcon } from "@heroicons/vue/outline";
+import { Squares2X2Icon, Bars3Icon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
   tableYes: {

@@ -42,7 +42,7 @@
                 type="button"
                 class="flex px-1 py-1 right-2 top-2 absolute focus:outline-none"
               >
-                <XIcon
+                <XMarkIcon
                   class="h-6 w-6 hover:text-red-500 text-red-300"
                   aria-hidden="true"
                 />&nbsp;
@@ -64,7 +64,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { XIcon } from "@heroicons/vue/outline";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 
 /** Process */
 const props = defineProps({

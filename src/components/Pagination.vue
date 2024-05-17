@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/vue/solid";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/vue/24/solid";
 
 const emit = defineEmits(["onchangePage"]);
 const props = defineProps({

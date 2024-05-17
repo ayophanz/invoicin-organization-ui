@@ -18,7 +18,12 @@
       :clickableRow="true"
       :loading="loading"
     ></TableList>
-    <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
+    <CardList
+      v-else
+      :label="cardLabel"
+      :body="cardBody"
+      :loading="loading"
+    ></CardList>
     <div v-if="getPagination" class="mt-5">
       <Pagination
         :paginate="getPagination"
@@ -30,7 +35,7 @@
 
 <script setup lang="ts">
 import { onMounted, watch, computed, ref } from "vue";
-import { PlusIcon } from "@heroicons/vue/outline";
+import { PlusIcon } from "@heroicons/vue/24/outline";
 import TableList from "../../components/TableList.vue";
 import CardList from "../../components/CardList.vue";
 import Button from "../../components/Button.vue";
@@ -60,15 +65,14 @@ watch(route, () => {
 });
 
 const urlChange = async () => {
+  if (route.query.view && route.query.view == "card") tableView.value = false;
+  if (route.query.view && route.query.view == "table") tableView.value = true;
+
   loading.value = true;
   await services
     .users(window.location.search)
     .then(() => {
       loading.value = false;
-      if (route.query.view && route.query.view == "card")
-        tableView.value = false;
-      if (route.query.view && route.query.view == "table")
-        tableView.value = true;
     })
     .catch(() => {
       loading.value = false;
