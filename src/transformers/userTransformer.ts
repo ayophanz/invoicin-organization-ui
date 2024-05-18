@@ -18,9 +18,7 @@ export default class UserTransformer extends Transformer {
       emailVerified: item.email_verified_at,
       createdAt: item.created_at,
       roles: item.roles,
-      accessOrganization: item.access_organization,
-      accessCustomer: item.access_customer,
-      accessProduct: item.access_product,
+      permissions: item.permissions,
     };
   }
 

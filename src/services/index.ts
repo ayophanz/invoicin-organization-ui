@@ -6,6 +6,7 @@ import updateAddress from "./updateAddress";
 import storeUser from "./storeUser";
 import users from "./users";
 import showUser from "./showUser";
+import updateUser from "./updateUser";
 
 export default {
   countries,
@@ -16,4 +17,5 @@ export default {
   storeUser,
   users,
   showUser,
+  updateUser,
 };
