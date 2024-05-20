@@ -1,7 +1,9 @@
 export default class Form {
   form: any;
+  initialData: any;
   constructor(form: object) {
     this.form = form;
+    this.initialData = form;
   }
 
   fields() {
@@ -61,8 +63,7 @@ export default class Form {
   }
 
   reset() {
-    this.form.forEach((item: object, key: string) => {
-      this.form[key].value = "";
-    });
+    console.log(this.initialData);
+    this.form = this.initialData;
   }
 }

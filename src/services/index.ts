@@ -7,6 +7,7 @@ import storeUser from "./storeUser";
 import users from "./users";
 import showUser from "./showUser";
 import updateUser from "./updateUser";
+import destroyUser from "./destroyUser";
 
 export default {
   countries,
@@ -18,4 +19,5 @@ export default {
   users,
   showUser,
   updateUser,
+  destroyUser,
 };

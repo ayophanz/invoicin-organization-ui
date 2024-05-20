@@ -20,12 +20,12 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
-        <tr :class="props.loading ? 'visible' : 'collapse'">
+        <tr :class="props.body.length == 0 ? 'visible' : 'collapse'">
           <td
             :colspan="props.head.length"
             class="whitespace-nowrap text-sm px-4 sm:px-6 text-center py-5"
           >
-            <Spinner class="m-auto w-full"></Spinner>
+            No Data
           </td>
         </tr>
         <tr
@@ -33,7 +33,6 @@
           :key="key"
           @click="linkTo(row['linkTo'] ? row['linkTo'].toString() : '')"
           :class="[
-            !props.loading ? 'visible' : 'collapse',
             props.clickableRow ? 'hover:bg-gray-200 cursor-pointer' : '',
           ]"
         >
@@ -59,7 +58,6 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import Spinner from "./Spinner.vue";
 
 const router = useRouter();
 const props = defineProps({
@@ -75,10 +73,6 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false,
-  },
-  loading: {
-    type: Boolean,
-    required: false,
   },
 });
 

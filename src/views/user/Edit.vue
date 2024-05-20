@@ -6,10 +6,7 @@
     <Form :form="form"></Form>
     <div class="flex justify-center items-center gap-x-3">
       <div>
-        <Button
-          :disabled="runActionOn == 'invitation' && form.getLoading()"
-          @click="reSendInvitation"
-        >
+        <Button :disabled="form.getLoading()" @click="reSendInvitation">
           <Spinner
             v-if="runActionOn == 'invitation' && form.getLoading()"
           ></Spinner>
@@ -17,14 +14,23 @@
         </Button>
       </div>
       <div>
-        <Button
-          :disabled="runActionOn == 'update' && form.getLoading()"
-          @click="onFormUpdate"
-        >
+        <Button :disabled="form.getLoading()" @click="onFormUpdate">
           <Spinner
             v-if="runActionOn == 'update' && form.getLoading()"
           ></Spinner>
           <span>Update</span>
+        </Button>
+      </div>
+      <div>
+        <Button
+          type="danger"
+          :disabled="form.getLoading()"
+          @click="onFormDelete"
+        >
+          <Spinner
+            v-if="runActionOn == 'delete' && form.getLoading()"
+          ></Spinner>
+          <span>Delete</span>
         </Button>
       </div>
     </div>
@@ -38,7 +44,7 @@ import Back from "../../components/Back.vue";
 import Button from "../../components/Button.vue";
 import formUtil from "../../utils/form.js";
 import { CheckBadgeIcon } from "@heroicons/vue/24/outline";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
@@ -49,8 +55,9 @@ const toast = useToast();
 const organizationStore = useOrganizationStore();
 const { getUser } = storeToRefs(organizationStore);
 const route = useRoute();
-const runActionOn = ref("");
+const router = useRouter();
 
+const runActionOn = ref("");
 let form = reactive(
   new formUtil({
     notice: {
@@ -153,6 +160,29 @@ const onFormUpdate = async () => {
     .then(() => {
       form.setLoading(false);
       toast.success("Successfully Save!", {
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      form.setLoading(false);
+      form.setErrors(error);
+      toast.error("Something went wrong!", {
+        timeout: 2000,
+      });
+    });
+};
+
+const onFormDelete = async () => {
+  runActionOn.value = "delete";
+  form.setLoading(true);
+  form.setErrors({});
+  const id = route.params.id.toString();
+  await services
+    .destroyUser(parseInt(id))
+    .then(() => {
+      form.setLoading(false);
+      router.back();
+      toast.success("Successfully Deleted!", {
         timeout: 2000,
       });
     })

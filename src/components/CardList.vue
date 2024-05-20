@@ -1,5 +1,8 @@
 <template>
   <div class="flex gap-3 flex-wrap justify-center transition-all items-center">
+    <div :class="props.body.length == 0 ? 'block' : 'hidden'">
+      <p>No Data</p>
+    </div>
     <div
       v-for="(card, key) in props.body"
       @click="linkTo(card['linkTo'] ? card['linkTo'].toString() : '')"
@@ -38,10 +41,6 @@ const props = defineProps({
   body: {
     type: Array<any>,
     required: true,
-  },
-  loading: {
-    type: Boolean,
-    required: false,
   },
 });
 

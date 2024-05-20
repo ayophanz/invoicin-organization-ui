@@ -16,14 +16,8 @@
       :head="tableHead"
       :body="tableBody"
       :clickableRow="true"
-      :loading="loading"
     ></TableList>
-    <CardList
-      v-else
-      :label="cardLabel"
-      :body="cardBody"
-      :loading="loading"
-    ></CardList>
+    <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
     <div v-if="getPagination" class="mt-5">
       <Pagination
         :paginate="getPagination"
