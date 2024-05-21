@@ -1,5 +1,5 @@
 <template>
-  <SlideIn></SlideIn>
+  <SlideIn :class="props.loading ? 'visible' : 'invisible'"></SlideIn>
   <nav
     class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0"
   >
@@ -23,7 +23,7 @@
         :class="[
           key == 0 || key == props.paginate.links.length - 1 ? 'hidden' : '',
           link.active
-            ? 'border-indigo-500 text-indigo-600'
+            ? 'border-gray-700 text-gray-800'
             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
           'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium',
         ]"
@@ -58,6 +58,10 @@ const props = defineProps({
   paginate: {
     type: Object,
     required: true,
+  },
+  loading: {
+    type: Boolean,
+    required: false,
   },
 });
 

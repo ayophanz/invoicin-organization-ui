@@ -1,9 +1,12 @@
 export default class Form {
   form: any;
-  initialData: any;
+  initialData = null;
   constructor(form: object) {
     this.form = form;
-    this.initialData = form;
+
+    if (this.initialData == null) {
+      this.initialData = structuredClone(form);
+    }
   }
 
   fields() {
@@ -62,8 +65,27 @@ export default class Form {
     this.form[name].visible = visible;
   }
 
-  reset() {
-    console.log(this.initialData);
-    this.form = this.initialData;
+  reset(field = null) {
+    if (field) {
+      if (this.form[field]) {
+        this.form[field].value = this.initialData[field].value;
+      }
+    } else {
+      Object.keys(this.form).map((key) => {
+        this.form[key].value = this.initialData[key].value;
+      });
+    }
+  }
+
+  clear(field = null) {
+    if (field) {
+      if (this.form[field]) {
+        this.form[field].value = "";
+      }
+    } else {
+      Object.keys(this.form).map((key) => {
+        this.form[key].value = "";
+      });
+    }
   }
 }

@@ -21,6 +21,7 @@
     <div v-if="getPagination" class="mt-5">
       <Pagination
         :paginate="getPagination"
+        :loading="loading"
         @onchange-page="changePage"
       ></Pagination>
     </div>
@@ -66,7 +67,9 @@ const urlChange = async () => {
   await services
     .users(window.location.search)
     .then(() => {
-      loading.value = false;
+      setTimeout(function () {
+        loading.value = false;
+      }, 2000);
     })
     .catch(() => {
       loading.value = false;
@@ -102,14 +105,14 @@ const tableBody = computed(() => {
       firstname: string;
       lastname: string;
       email: string;
-      roles: string;
+      role: string;
       id: string;
     }) => ({
       image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      role: user.roles[0],
+      role: user.role[0],
       linkTo: `/organization/users/${user.id}`,
     })
   );
@@ -122,7 +125,7 @@ const cardBody = computed(() => {
       firstname: string;
       lastname: string;
       email: string;
-      roles: string;
+      role: string;
       id: string;
       emailVerified: string;
     }) => ({
@@ -132,7 +135,7 @@ const cardBody = computed(() => {
       emailVerified: `<span class="text-gray-500 text-sm">${
         user.emailVerified ?? "Pending"
       }</span>`,
-      role: `<span class="text-gray-500 text-sm">${user.roles[0]}</span>`,
+      role: `<span class="text-gray-500 text-sm">${user.role[0]}</span>`,
       linkTo: `/organization/users/${user.id}`,
     })
   );

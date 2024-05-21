@@ -1,8 +1,14 @@
 <template>
-  <div class="slide-in">
-    <div></div>
-    <div></div>
-    <div></div>
+  <div class="custom-slide-in relative h-3">
+    <div
+      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+    ></div>
+    <div
+      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+    ></div>
+    <div
+      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+    ></div>
   </div>
 </template>
 <style>
@@ -11,7 +17,7 @@
   *
   * @author jh3y
 */
-@-webkit-keyframes slide-in {
+@-webkit-keyframes custom-slide-in {
   0% {
     opacity: 0;
     -webkit-transform: translateX(-300%);
@@ -29,7 +35,7 @@
     transform: translateX(300%);
   }
 }
-@keyframes slide-in {
+@keyframes custom-slide-in {
   0% {
     opacity: 0;
     -webkit-transform: translateX(-300%);
@@ -48,31 +54,23 @@
   }
 }
 
-.slide-in div {
-  -webkit-animation: slide-in 1.5s infinite;
-  animation: slide-in 1.5s infinite;
-  background-color: var(--primary);
-  height: 20px;
-  left: 50%;
-  margin-top: -10px;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  width: 20px;
+.custom-slide-in div {
+  -webkit-animation: custom-slide-in 1.5s infinite;
+  animation: custom-slide-in 1.5s infinite;
 }
-.slide-in div:nth-of-type(1) {
+.custom-slide-in div:nth-of-type(1) {
   -webkit-animation-delay: 0.5s;
   animation-delay: 0.5s;
-  margin-left: -35px;
+  margin-left: -30px;
 }
-.slide-in div:nth-of-type(2) {
+.custom-slide-in div:nth-of-type(2) {
   -webkit-animation-delay: 1s;
   animation-delay: 1s;
-  margin-left: -10px;
+  margin-left: -5px;
 }
-.slide-in div:nth-of-type(3) {
+.custom-slide-in div:nth-of-type(3) {
   -webkit-animation-delay: 1.5s;
   animation-delay: 1.5s;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 </style>

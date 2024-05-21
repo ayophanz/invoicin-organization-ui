@@ -17,7 +17,7 @@ export default class UserTransformer extends Transformer {
       email: item.email,
       emailVerified: item.email_verified_at,
       createdAt: item.created_at,
-      roles: item.roles,
+      role: item.role,
       permissions: item.permissions,
     };
   }

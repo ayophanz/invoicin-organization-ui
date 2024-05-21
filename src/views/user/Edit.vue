@@ -120,7 +120,7 @@ onMounted(async () => {
   const data = {
     firstname: getUser.value.firstname,
     email: getUser.value.email,
-    role: getUser.value.roles[0],
+    role: getUser.value.role[0],
     notice: `<span class="pl-2 text-sm">${
       getUser.value.emailVerified ?? "Pending"
     }</span>`,
@@ -173,6 +173,13 @@ const onFormUpdate = async () => {
 };
 
 const onFormDelete = async () => {
+  const confirmation = confirm("Are you sure?");
+  if (confirmation) {
+    confirmDelete();
+  }
+};
+
+const confirmDelete = async () => {
   runActionOn.value = "delete";
   form.setLoading(true);
   form.setErrors({});
