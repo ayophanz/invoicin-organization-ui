@@ -4,9 +4,9 @@
   >
     <a
       href="javascript:;"
-      @click="props.tableNo(false)"
+      @click="props.onView('card')"
       :class="[
-        !props.isTable ? 'bg-gray-700 text-white' : '',
+        props.view == 'card' ? 'bg-gray-700 text-white' : '',
         'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
       ]"
     >
@@ -14,9 +14,9 @@
     </a>
     <a
       href="javascript:;"
-      @click="props.tableYes(true)"
+      @click="props.onView('table')"
       :class="[
-        props.isTable ? 'bg-gray-700 text-white' : '',
+        props.view == 'table' ? 'bg-gray-700 text-white' : '',
         'hover:bg-gray-700 transition-all hover:text-white py-2 px-3',
       ]"
     >
@@ -29,16 +29,12 @@
 import { Squares2X2Icon, Bars3Icon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
-  tableYes: {
+  onView: {
     type: Function,
     required: true,
   },
-  tableNo: {
-    type: Function,
-    required: true,
-  },
-  isTable: {
-    type: Boolean,
+  view: {
+    type: String,
     default: true,
   },
 });

@@ -41,7 +41,9 @@ export default class Form {
 
   setFormData(data: any) {
     Object.keys(data).map((key) => {
-      this.form[key].value = data[key];
+      if (this.form[key].value) {
+        this.form[key].value = data[key];
+      }
     });
   }
 
@@ -67,24 +69,28 @@ export default class Form {
 
   reset(field = null) {
     if (field) {
-      if (this.form[field]) {
+      if (this.form[field].value) {
         this.form[field].value = this.initialData[field].value;
       }
     } else {
       Object.keys(this.form).map((key) => {
-        this.form[key].value = this.initialData[key].value;
+        if (this.form[key].value) {
+          this.form[key].value = this.initialData[key].value;
+        }
       });
     }
   }
 
   clear(field = null) {
     if (field) {
-      if (this.form[field]) {
+      if (this.form[field].value) {
         this.form[field].value = "";
       }
     } else {
       Object.keys(this.form).map((key) => {
-        this.form[key].value = "";
+        if (this.form[key].value) {
+          this.form[key].value = "";
+        }
       });
     }
   }

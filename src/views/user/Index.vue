@@ -1,18 +1,14 @@
 <template>
-  <h1 class="text-2xl font-semibold">Users</h1>
+  <h1 class="text-2xl font-semibold">Users - {{ "Pending" }}</h1>
   <div class="flex justify-between items-center my-2">
-    <ViewType
-      :tableYes="onTableView"
-      :tableNo="onTableView"
-      :isTable="tableView"
-    ></ViewType>
+    <ViewType :onView="onView" :view="viewType"></ViewType>
     <Button @click="onNew">
       <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
     >
   </div>
   <div class="mt-5">
     <TableList
-      v-if="tableView"
+      v-if="viewType == 'table'"
       :head="tableHead"
       :body="tableBody"
       :clickableRow="true"
@@ -48,7 +44,7 @@ const { getUsers, getPagination } = storeToRefs(organizationStore);
 
 const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "Email", "Verified", "Role"];
-const tableView = ref(true);
+const viewType = ref("table");
 const loading = ref(false);
 
 onMounted(() => {
@@ -60,8 +56,7 @@ watch(route, () => {
 });
 
 const urlChange = async () => {
-  if (route.query.view && route.query.view == "card") tableView.value = false;
-  if (route.query.view && route.query.view == "table") tableView.value = true;
+  viewType.value = route.query.view ? route.query.view.toString() : "table";
 
   loading.value = true;
   await services
@@ -85,11 +80,7 @@ const changePage = async (page: string | null) => {
   });
 };
 
-const onTableView = (table: boolean) => {
-  tableView.value = table;
-  let view = "table";
-  if (!table) view = "card";
-
+const onView = (view: string) => {
   router.replace({
     query: {
       ...route.query,
