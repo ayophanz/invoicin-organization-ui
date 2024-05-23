@@ -1,11 +1,11 @@
 <template>
-  <h1 class="text-2xl font-semibold">User</h1>
-  <Back class="mt-3"></Back>
-  <div class="mt-5 max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="mb-5 text-2xl font-semibold">User</h1>
+    <Back class="mb-3"></Back>
     <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
     <Form :form="form"></Form>
     <div class="flex justify-center items-center gap-x-3">
-      <div>
+      <div v-if="getUser.emailVerified == null">
         <Button :disabled="form.getLoading()" @click="reSendInvitation">
           <Spinner
             v-if="runActionOn == 'invitation' && form.getLoading()"
@@ -159,7 +159,7 @@ const onFormUpdate = async () => {
     .updateUser(parseInt(id), form.getFormData())
     .then(() => {
       form.setLoading(false);
-      toast.success("Successfully Save!", {
+      toast.success("Successfully!", {
         timeout: 2000,
       });
     })
@@ -189,7 +189,7 @@ const confirmDelete = async () => {
     .then(() => {
       form.setLoading(false);
       router.back();
-      toast.success("Successfully Deleted!", {
+      toast.success("Successfully!", {
         timeout: 2000,
       });
     })

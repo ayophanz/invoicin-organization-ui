@@ -1,6 +1,6 @@
 <template>
-  <h1 class="text-2xl font-semibold">Address</h1>
-  <div class="mt-5 max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="mb-5 text-2xl font-semibold">Address</h1>
     <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
     <div class="divide-y divide-gray-900/10">
       <dl class="space-y-6 divide-y divide-gray-900/10">
@@ -156,7 +156,7 @@ const onAddressSave = (index: number) => async () => {
     .updateAddress(data)
     .then(() => {
       addresses[index].form.setLoading(false);
-      toast.success("Successfully Save!", {
+      toast.success("Successfully!", {
         timeout: 2000,
       });
     })

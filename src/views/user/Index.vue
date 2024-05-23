@@ -1,25 +1,27 @@
 <template>
-  <h1 class="text-2xl font-semibold">Users - {{ "Pending" }}</h1>
-  <div class="flex justify-between items-center my-2">
-    <ViewType :onView="onView" :view="viewType"></ViewType>
-    <Button @click="onNew">
-      <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
-    >
-  </div>
-  <div class="mt-5">
-    <TableList
-      v-if="viewType == 'table'"
-      :head="tableHead"
-      :body="tableBody"
-      :clickableRow="true"
-    ></TableList>
-    <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
-    <div v-if="getPagination" class="mt-5">
-      <Pagination
-        :paginate="getPagination"
-        :loading="loading"
-        @onchange-page="changePage"
-      ></Pagination>
+  <div class="max-w-7xl mx-auto">
+    <h1 class="mb-5 text-2xl font-semibold">Users{{ sort != "" ? ' - ' + sort : '' }}</h1>
+    <div class="flex justify-between items-center my-2">
+      <ViewType :onView="onView" :view="viewType"></ViewType>
+      <Button @click="onNew">
+        <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
+      >
+    </div>
+    <div class="mt-5">
+      <TableList
+        v-if="viewType == 'table'"
+        :head="tableHead"
+        :body="tableBody"
+        :clickableRow="true"
+      ></TableList>
+      <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
+      <div v-if="getPagination" class="mt-5">
+        <Pagination
+          :paginate="getPagination"
+          :loading="loading"
+          @onchange-page="changePage"
+        ></Pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +90,17 @@ const onView = (view: string) => {
     },
   });
 };
+
+const sort = computed(() => {
+  if (route.query.sort) {
+    const sort = route.query.sort.toString();
+    const capitalized = sort.charAt(0).toUpperCase() + sort.slice(1);
+
+    return capitalized;
+  }
+
+  return "";
+});
 
 const tableBody = computed(() => {
   return getUsers.value.map(
