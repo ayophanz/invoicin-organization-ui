@@ -204,5 +204,21 @@ const confirmDelete = async () => {
 
 const reSendInvitation = async () => {
   runActionOn.value = "invitation";
+  form.setLoading(true);
+  const id = route.params.id.toString();
+  await services
+    .reInviteUser(parseInt(id))
+    .then(() => {
+      form.setLoading(false);
+      toast.success("Successfully!", {
+        timeout: 2000,
+      });
+    })
+    .catch(() => {
+      form.setLoading(false);
+      toast.error("Something went wrong!", {
+        timeout: 2000,
+      });
+    });
 };
 </script>

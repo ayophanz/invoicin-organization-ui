@@ -8,6 +8,7 @@ import users from "./users";
 import showUser from "./showUser";
 import updateUser from "./updateUser";
 import destroyUser from "./destroyUser";
+import reInviteUser from "./reInviteUser";
 
 export default {
   countries,
@@ -20,4 +21,5 @@ export default {
   showUser,
   updateUser,
   destroyUser,
+  reInviteUser,
 };

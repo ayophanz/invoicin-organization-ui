@@ -1,11 +1,18 @@
 <template>
   <div class="max-w-7xl mx-auto">
-    <h1 class="mb-5 text-2xl font-semibold">Users{{ sort != "" ? ' - ' + sort : '' }}</h1>
+    <h1 class="mb-5 text-2xl font-semibold">
+      Users{{ sort != "" ? " - " + sort : "" }}
+    </h1>
     <div class="flex justify-between items-center my-2">
-      <ViewType :onView="onView" :view="viewType"></ViewType>
-      <Button @click="onNew">
-        <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
-      >
+      <div class="flex justify-center items-center gap-x-2">
+        <ViewType :onView="onView" :view="viewType"></ViewType>
+        <Form :form="filterForm" class="filter-form"></Form>
+      </div>
+      <div>
+        <Button @click="onNew">
+          <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
+        >
+      </div>
     </div>
     <div class="mt-5">
       <TableList
@@ -27,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, computed, ref } from "vue";
+import { onMounted, watch, computed, ref, reactive } from "vue";
 import { PlusIcon } from "@heroicons/vue/24/outline";
 import TableList from "../../components/TableList.vue";
 import CardList from "../../components/CardList.vue";
@@ -38,6 +45,8 @@ import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
+import formUtil from "../../utils/form";
+import Form from "../../components/form/Form.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -48,14 +57,43 @@ const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "Email", "Verified", "Role"];
 const viewType = ref("table");
 const loading = ref(false);
+let filterForm = reactive(
+  new formUtil({
+    role: {
+      label: "",
+      value: "",
+      type: "select",
+      options: [
+        { id: "", name: "" },
+        { id: "manager", name: "Manager" },
+        { id: "member", name: "Member" },
+      ],
+    },
+    search: {
+      label: "",
+      value: "",
+      type: "text",
+      placeholder: "Search",
+    },
+  })
+);
 
 onMounted(() => {
   urlChange();
+  assignData();
 });
 
 watch(route, () => {
   urlChange();
 });
+
+const assignData = () => {
+  const data = {
+    search: route.query.search ?? "",
+    role: route.query.role ?? "",
+  };
+  filterForm.setFormData(data);
+};
 
 const urlChange = async () => {
   viewType.value = route.query.view ? route.query.view.toString() : "table";
@@ -81,6 +119,19 @@ const changePage = async (page: string | null) => {
     },
   });
 };
+
+watch(filterForm, async (form) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
+  const role = form.getFieldValue("role");
+  const search = form.getFieldValue("search");
+  router.replace({
+    query: {
+      ...route.query,
+      search: search,
+      role: role,
+    },
+  });
+});
 
 const onView = (view: string) => {
   router.replace({
@@ -149,3 +200,17 @@ const onNew = () => {
   router.push({ path: "/organization/users/new" });
 };
 </script>
+
+<style>
+.filter-form .mt-1,
+.filter-form .mb-2 {
+  margin: 0px;
+}
+.filter-form {
+  display: flex;
+  column-gap: 10px;
+}
+.filter-form.form-component select {
+  width: 150px;
+}
+</style>

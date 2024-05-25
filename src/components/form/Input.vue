@@ -11,6 +11,7 @@
         <input
           autocomplete="off"
           v-model="input"
+          :placeholder="props.placeholder"
           :type="props.type"
           :name="props.name"
           :id="props.name"
@@ -46,6 +47,10 @@ const props = defineProps({
     required: true,
   },
   label: {
+    type: String,
+    default: "",
+  },
+  placeholder: {
     type: String,
     default: "",
   },
