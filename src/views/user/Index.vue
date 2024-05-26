@@ -14,6 +14,16 @@
         >
       </div>
     </div>
+    <div
+      v-if="!isPermissionHide"
+      class="border border-gray-200 rounded-lg p-4 relative mt-4"
+    >
+      <span class="absolute -top-3 left-0 bg-white px-1">Permission</span>
+      <Form
+        :form="permissionForm"
+        class="permission-form flex justify-start items-center"
+      ></Form>
+    </div>
     <div class="mt-5">
       <TableList
         v-if="viewType == 'table'"
@@ -57,6 +67,7 @@ const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "Email", "Verified", "Role"];
 const viewType = ref("table");
 const loading = ref(false);
+const isPermissionHide = ref(true);
 let filterForm = reactive(
   new formUtil({
     role: {
@@ -77,10 +88,28 @@ let filterForm = reactive(
     },
   })
 );
+let permissionForm = reactive(
+  new formUtil({
+    accessOrganization: {
+      label: "Access Organization",
+      value: "",
+      type: "checkbox",
+    },
+    accessCustomer: {
+      label: "Access Customer",
+      value: "",
+      type: "checkbox",
+    },
+    accessProduct: {
+      label: "Access Product",
+      value: "",
+      type: "checkbox",
+    },
+  })
+);
 
 onMounted(() => {
   urlChange();
-  assignData();
 });
 
 watch(route, () => {
@@ -97,6 +126,7 @@ const assignData = () => {
 
 const urlChange = async () => {
   viewType.value = route.query.view ? route.query.view.toString() : "table";
+  assignData();
 
   loading.value = true;
   await services
@@ -124,6 +154,7 @@ watch(filterForm, async (form) => {
   await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
   const role = form.getFieldValue("role");
   const search = form.getFieldValue("search");
+  hidePermission(role);
   router.replace({
     query: {
       ...route.query,
@@ -132,6 +163,29 @@ watch(filterForm, async (form) => {
     },
   });
 });
+
+watch(permissionForm, async (form) => {
+  if (!isPermissionHide && route.query.role && route.query.role == "member") {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
+    const org = form.getFieldValue("accessOrganization");
+    const product = form.getFieldValue("accessProduct");
+    const customer = form.getFieldValue("accessCustomer");
+    router.replace({
+      query: {
+        ...route.query,
+        permissions: [org, product, customer],
+      },
+    });
+  }
+});
+
+const hidePermission = (role: string) => {
+  if (role == "member") {
+    isPermissionHide.value = false;
+  } else {
+    isPermissionHide.value = true;
+  }
+};
 
 const onView = (view: string) => {
   router.replace({
@@ -213,5 +267,8 @@ const onNew = () => {
 }
 .filter-form.form-component select {
   width: 150px;
+}
+.permission-form .mb-2 {
+  margin: 0px;
 }
 </style>

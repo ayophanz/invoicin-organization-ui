@@ -36,12 +36,15 @@
             </p>
             <ul
               :class="menu.active == true ? 'flex' : 'hidden'"
-              class="px-2 flex flex-col mt-2 gap-y-2 overflow-hidden transition-all duration-700"
+              class="px-2 flex flex-col mt-2 gap-y-1 overflow-hidden transition-all duration-700"
             >
               <li v-for="(submenu, key2) in menu.submenu" :key="key2">
                 <RouterLink
                   :to="submenu.to"
-                  class="w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-full py-1 px-2 transition-all hover:text-white"
+                  :class="[
+                    currentPath == submenu.to ? 'bg-gray-700 text-white' : '',
+                    'w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-full py-1 px-2 transition-all hover:text-white',
+                  ]"
                 >
                   <span>{{ submenu.name }}</span>
                 </RouterLink>
@@ -149,4 +152,6 @@ const submenuHide = (key: number) => {
 };
 
 const compMenuHideToggle = computed(() => menuHideToggle.value);
+
+const currentPath = computed(() => route.fullPath);
 </script>
