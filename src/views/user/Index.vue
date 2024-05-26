@@ -203,7 +203,8 @@ const onNew = () => {
 
 <style>
 .filter-form .mt-1,
-.filter-form .mb-2 {
+.filter-form .mb-2,
+.filter-form .mt-2 {
   margin: 0px;
 }
 .filter-form {

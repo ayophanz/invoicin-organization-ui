@@ -31,7 +31,11 @@
 
   <div class="mb-2 select-component">
     <div>
-      <Listbox as="div" v-model="input">
+      <Listbox
+        as="div"
+        v-model="input"
+        @update:modelValue="(value: string) => onChange(value)"
+      >
         <ListboxLabel
           v-if="label !== ''"
           :for="name"
@@ -42,7 +46,9 @@
           <ListboxButton
             class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
-            <span class="block truncate">{{ input }}</span>
+            <span class="inline-flex h-full min-w-28 truncate">{{
+              selected ? selected.name : input
+            }}</span>
             <span
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
             >
@@ -77,7 +83,7 @@
                   <span
                     :class="[
                       selected ? 'font-semibold' : 'font-normal',
-                      'block truncate',
+                      'inline-flex h-full truncate',
                     ]"
                     >{{ option.name }}</span
                   >
@@ -105,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -146,7 +152,12 @@ watch(props, (prop) => {
   input.value = prop.value;
 });
 
-// let onChange = (value: string) => {
-//   emit("onchangeData", { name: props.name, value: value });
-// };
+const selected = computed(() => {
+  const selected = props.options.find((item) => item.id == input.value);
+  return selected;
+});
+
+let onChange = (value: string) => {
+  emit("onchangeData", { name: props.name, value: value });
+};
 </script>
