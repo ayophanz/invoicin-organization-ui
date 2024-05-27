@@ -117,11 +117,16 @@ watch(route, () => {
 });
 
 const assignData = () => {
-  const data = {
+  filterForm.setFormData({
     search: route.query.search ?? "",
     role: route.query.role ?? "",
-  };
-  filterForm.setFormData(data);
+  });
+
+  // permissionForm.setFormData({
+  //   accessOrganization: route.query.access_organization ?? "",
+  //   accessProduct: route.query.access_product ?? "",
+  //   accessCustomer: route.query.access_customer ?? "",
+  // });
 };
 
 const urlChange = async () => {
@@ -154,27 +159,51 @@ watch(filterForm, async (form) => {
   await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
   const role = form.getFieldValue("role");
   const search = form.getFieldValue("search");
-  hidePermission(role);
+
+  let query = { ...route.query };
+  if (role != "") query.role = role;
+  else delete query.role;
+
+  if (search != "") query.search = search;
+  else delete query.search;
+
+  if (role != "member") {
+    delete query.access_organization;
+    delete query.access_product;
+    delete query.access_customer;
+    // permissionForm.setFormData({
+    //   accessOrganization: "",
+    //   accessProduct: "",
+    //   accessCustomer: "",
+    // });
+  }
+
   router.replace({
-    query: {
-      ...route.query,
-      search: search,
-      role: role,
-    },
+    query: query,
   });
+
+  hidePermission(role);
 });
 
 watch(permissionForm, async (form) => {
-  if (!isPermissionHide && route.query.role && route.query.role == "member") {
+  if (route.query.role && route.query.role == "member") {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
     const org = form.getFieldValue("accessOrganization");
     const product = form.getFieldValue("accessProduct");
     const customer = form.getFieldValue("accessCustomer");
+
+    let query = { ...route.query };
+    if (org == true) query.access_organization = "true";
+    else delete query.access_organization;
+
+    if (product == true) query.access_product = "true";
+    else delete query.access_product;
+
+    if (customer == true) query.access_customer = "true";
+    else delete query.access_customer;
+
     router.replace({
-      query: {
-        ...route.query,
-        permissions: [org, product, customer],
-      },
+      query: query,
     });
   }
 });

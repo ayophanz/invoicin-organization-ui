@@ -153,5 +153,8 @@ const submenuHide = (key: number) => {
 
 const compMenuHideToggle = computed(() => menuHideToggle.value);
 
-const currentPath = computed(() => route.fullPath);
+const currentPath = computed(() => {
+  console.log(route.fullPath);
+  return route.fullPath;
+});
 </script>
