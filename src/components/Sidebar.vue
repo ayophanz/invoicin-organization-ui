@@ -42,7 +42,7 @@
                 <RouterLink
                   :to="submenu.to"
                   :class="[
-                    currentPath == submenu.to ? 'bg-gray-700 text-white' : '',
+                    currentPath(submenu.to) ? 'bg-gray-700 text-white' : '',
                     'w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-full py-1 px-2 transition-all hover:text-white',
                   ]"
                 >
@@ -107,11 +107,11 @@ const menus = ref([
       },
       {
         name: "Verified",
-        to: "/organization/users?sort=verified",
+        to: "/organization/users/verified",
       },
       {
         name: "Pending",
-        to: "/organization/users?sort=pending",
+        to: "/organization/users/pending",
       },
     ],
   },
@@ -153,8 +153,18 @@ const submenuHide = (key: number) => {
 
 const compMenuHideToggle = computed(() => menuHideToggle.value);
 
-const currentPath = computed(() => {
-  console.log(route.fullPath);
-  return route.fullPath;
-});
+const currentPath = (to: string) => {
+  // if (to.split("?").length > 0) {
+  //   const urlParams = new URLSearchParams(to.split("?")[1]);
+  //   const entries = urlParams.entries() as any;
+
+  //   for (const entry of entries) {
+  //     const find = Object.keys(route.query).find(
+  //       (key) => key === entry[0] && route.query[key] === entry[1]
+  //     );
+  //     if (find) return true;
+  //   }
+  // }
+  return route.path == to;
+};
 </script>

@@ -35,6 +35,14 @@ const router = createRouter({
             component: user,
           },
           {
+            path: 'verified',
+            component: user,
+          },
+          {
+            path: 'pending',
+            component: user,
+          },
+          {
             path: 'new',
             component: userCreate,
           },

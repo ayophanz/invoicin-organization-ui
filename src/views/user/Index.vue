@@ -122,20 +122,28 @@ const assignData = () => {
     role: route.query.role ?? "",
   });
 
-  // permissionForm.setFormData({
-  //   accessOrganization: route.query.access_organization ?? "",
-  //   accessProduct: route.query.access_product ?? "",
-  //   accessCustomer: route.query.access_customer ?? "",
-  // });
+  permissionForm.setFormData({
+    accessOrganization: route.query.access_organization ?? "",
+    accessProduct: route.query.access_product ?? "",
+    accessCustomer: route.query.access_customer ?? "",
+  });
 };
 
 const urlChange = async () => {
+  console.log(route.path);
   viewType.value = route.query.view ? route.query.view.toString() : "table";
   assignData();
 
+  let params = window.location.search;
+  if (route.path == "/organization/users/pending") {
+    params += params == "" ? "?verify=pending" : "&verify=pending";
+  } else if (route.path == "/organization/users/verified") {
+    params += params == "" ? "?verify=verified" : "&verify=verified";
+  }
+
   loading.value = true;
   await services
-    .users(window.location.search)
+    .users(params)
     .then(() => {
       setTimeout(function () {
         loading.value = false;
@@ -171,11 +179,11 @@ watch(filterForm, async (form) => {
     delete query.access_organization;
     delete query.access_product;
     delete query.access_customer;
-    // permissionForm.setFormData({
-    //   accessOrganization: "",
-    //   accessProduct: "",
-    //   accessCustomer: "",
-    // });
+    permissionForm.setFormData({
+      accessOrganization: "",
+      accessProduct: "",
+      accessCustomer: "",
+    });
   }
 
   router.replace({
@@ -188,18 +196,18 @@ watch(filterForm, async (form) => {
 watch(permissionForm, async (form) => {
   if (route.query.role && route.query.role == "member") {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 sec
-    const org = form.getFieldValue("accessOrganization");
-    const product = form.getFieldValue("accessProduct");
-    const customer = form.getFieldValue("accessCustomer");
+    const org = form.getFieldValue("accessOrganization").toString();
+    const product = form.getFieldValue("accessProduct").toString();
+    const customer = form.getFieldValue("accessCustomer").toString();
 
     let query = { ...route.query };
-    if (org == true) query.access_organization = "true";
+    if (org == "true") query.access_organization = "true";
     else delete query.access_organization;
 
-    if (product == true) query.access_product = "true";
+    if (product == "true") query.access_product = "true";
     else delete query.access_product;
 
-    if (customer == true) query.access_customer = "true";
+    if (customer == "true") query.access_customer = "true";
     else delete query.access_customer;
 
     router.replace({
