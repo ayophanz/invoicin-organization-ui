@@ -1,12 +1,13 @@
 <template>
   <div class="max-w-7xl mx-auto">
     <h1 class="mb-5 text-2xl font-semibold">
-      Users{{ sort != "" ? " - " + sort : "" }}
+      Users{{ verifyStatus != "" ? " - " + verifyStatus : "" }}
     </h1>
     <div class="flex justify-between items-center my-2">
       <div class="flex justify-center items-center gap-x-2">
         <ViewType :onView="onView" :view="viewType"></ViewType>
         <Form :form="filterForm" class="filter-form"></Form>
+        <Sorting :sorts="sorts"></Sorting>
       </div>
       <div>
         <Button @click="onNew">
@@ -45,7 +46,11 @@
 
 <script setup lang="ts">
 import { onMounted, watch, computed, ref, reactive } from "vue";
-import { PlusIcon } from "@heroicons/vue/24/outline";
+import {
+  PlusIcon,
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
+} from "@heroicons/vue/24/outline";
 import TableList from "../../components/TableList.vue";
 import CardList from "../../components/CardList.vue";
 import Button from "../../components/Button.vue";
@@ -57,6 +62,7 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import formUtil from "../../utils/form";
 import Form from "../../components/form/Form.vue";
+import Sorting from "../../components/Sorting.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -65,6 +71,38 @@ const { getUsers, getPagination } = storeToRefs(organizationStore);
 
 const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "Email", "Verified", "Role"];
+const sorts = [
+  {
+    id: "asc_id",
+    name: "ASC by ID",
+    icon: BarsArrowDownIcon,
+  },
+  {
+    id: "desc_id",
+    name: "DESC by ID",
+    icon: BarsArrowUpIcon,
+  },
+  {
+    id: "asc_firstname",
+    name: "ASC by Firstname",
+    icon: BarsArrowDownIcon,
+  },
+  {
+    id: "desc_firstname",
+    name: "DESC by Firstname",
+    icon: BarsArrowUpIcon,
+  },
+  {
+    id: "ASC_lastname",
+    name: "ASC by Lastname",
+    icon: BarsArrowDownIcon,
+  },
+  {
+    id: "desc_lastname",
+    name: "DESC by lastname",
+    icon: BarsArrowUpIcon,
+  },
+];
 const viewType = ref("table");
 const loading = ref(false);
 const isPermissionHide = ref(true);
@@ -233,13 +271,13 @@ const onView = (view: string) => {
   });
 };
 
-const sort = computed(() => {
-  if (route.query.sort) {
-    const sort = route.query.sort.toString();
-    const capitalized = sort.charAt(0).toUpperCase() + sort.slice(1);
+const verifyStatus = computed(() => {
+  // if (route.query.sort) {
+  //   const verify = route.query.sort.toString();
+  //   const capitalized = verify.charAt(0).toUpperCase() + verify.slice(1);
 
-    return capitalized;
-  }
+  //   return capitalized;
+  // }
 
   return "";
 });
@@ -301,9 +339,6 @@ const onNew = () => {
 .filter-form {
   display: flex;
   column-gap: 10px;
-}
-.filter-form.form-component select {
-  width: 150px;
 }
 .permission-form .mb-2 {
   margin: 0px;
