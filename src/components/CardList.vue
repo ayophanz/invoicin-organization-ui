@@ -13,10 +13,11 @@
           v-for="(item, key2, i) in card"
           :key="i + 1"
           :class="[
-            'flex items-center justify-between gap-x-1',
+            'flex items-center gap-x-1',
             key2.toString() == 'linkTo' || i > props.label.length - 1
               ? 'hidden'
               : '',
+            key2.toString() == 'image' ? 'justify-center' : 'justify-between',
           ]"
         >
           <span v-if="label[i] != ''" class="font-semibold text-sm"

@@ -29,17 +29,6 @@
         @onchange-data="updateValue"
       ></Radio>
 
-      <Autocomplete
-        v-else-if="field.type == 'autocomplete'"
-        :value="field.value"
-        :label="field.label"
-        :placeholder="field.placeholder ?? ''"
-        :error-message="field.errorMessage"
-        :name="`${key}`"
-        v-show="field.visible == undefined || field.visible ? true : false"
-        @onchange-data="updateValue"
-      ></Autocomplete>
-
       <Checkbox
         v-else-if="field.type == 'checkbox'"
         :value="field.value"
@@ -97,7 +86,6 @@ import Select from "./Select.vue";
 import Radio from "./Radio.vue";
 import Checkbox from "./Checkbox.vue";
 import Message from "./Message.vue";
-import Autocomplete from "./Autocomplete.vue";
 import Spinner from "../Spinner.vue";
 import Button from "../Button.vue";
 

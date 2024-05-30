@@ -1,13 +1,13 @@
 <template>
   <div class="max-w-7xl mx-auto">
     <h1 class="mb-5 text-2xl font-semibold">
-      Users{{ verifyStatus != "" ? " - " + verifyStatus : "" }}
+      Users{{ status != "" ? " - " + status : "" }}
     </h1>
     <div class="flex justify-between items-center my-2">
       <div class="flex justify-center items-center gap-x-2">
         <ViewType :onView="onView" :view="viewType"></ViewType>
         <Form :form="filterForm" class="filter-form"></Form>
-        <Sorting :sorts="sorts"></Sorting>
+        <Sorting :sorts="sorts" @onchange-data="onSort"></Sorting>
       </div>
       <div>
         <Button @click="onNew">
@@ -69,8 +69,8 @@ const router = useRouter();
 const organizationStore = useOrganizationStore();
 const { getUsers, getPagination } = storeToRefs(organizationStore);
 
-const tableHead = ["Image", "First Name", "Last Name", "Email", "Role"];
-const cardLabel = ["", "", "Email", "Verified", "Role"];
+const tableHead = ["ID", "Image", "First Name", "Last Name", "Email", "Role"];
+const cardLabel = ["", "", "ID", "Email", "Verified", "Role"];
 const sorts = [
   {
     id: "asc_id",
@@ -93,7 +93,7 @@ const sorts = [
     icon: BarsArrowUpIcon,
   },
   {
-    id: "ASC_lastname",
+    id: "asc_lastname",
     name: "ASC by Lastname",
     icon: BarsArrowDownIcon,
   },
@@ -148,11 +148,16 @@ let permissionForm = reactive(
 
 onMounted(() => {
   urlChange();
+  onlyManager();
 });
 
 watch(route, () => {
   urlChange();
 });
+
+const onlyManager = () => {
+  //
+};
 
 const assignData = () => {
   filterForm.setFormData({
@@ -271,7 +276,16 @@ const onView = (view: string) => {
   });
 };
 
-const verifyStatus = computed(() => {
+const onSort = (sort: string) => {
+  router.replace({
+    query: {
+      ...route.query,
+      sort: sort,
+    },
+  });
+};
+
+const status = computed(() => {
   // if (route.query.sort) {
   //   const verify = route.query.sort.toString();
   //   const capitalized = verify.charAt(0).toUpperCase() + verify.slice(1);
@@ -291,7 +305,9 @@ const tableBody = computed(() => {
       email: string;
       role: string;
       id: string;
+      prettyId: string;
     }) => ({
+      id: user.prettyId,
       image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
       firstname: user.firstname,
       lastname: user.lastname,
@@ -312,9 +328,11 @@ const cardBody = computed(() => {
       role: string;
       id: string;
       emailVerified: string;
+      prettyId: string;
     }) => ({
-      image: `<img src="${user.image}" class="max-h-12 max-w-12 rounded-full object-cover"/>`,
+      image: `<img src="${user.image}" class="m-auto max-h-16 max-w-16 rounded-full object-cover"/>`,
       name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
+      id: user.prettyId,
       email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
       emailVerified: `<span class="text-gray-500 text-sm">${
         user.emailVerified ?? "Pending"

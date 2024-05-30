@@ -11,6 +11,7 @@ export default class UserTransformer extends Transformer {
   static fetch(item: any) {
     return {
       id: item.id,
+      prettyId: item.pretty_id,
       firstname: item.first_name,
       lastname: item.last_name,
       image: item.image,

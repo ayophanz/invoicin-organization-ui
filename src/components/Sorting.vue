@@ -26,7 +26,8 @@
               <a
                 v-for="(item, key) in props.sorts"
                 :key="key"
-                href="##"
+                @click="selected(key)"
+                href="javascript:;"
                 class="flex items-center rounded-lg p-2 transition duration-150 ease-in-out text-gray-700 hover:text-white hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
               >
                 <div class="flex h-5 w-5 shrink-0 items-center justify-center">
@@ -52,10 +53,16 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { FunnelIcon } from "@heroicons/vue/24/outline";
 
+const emit = defineEmits(["onchangeData"]);
+
 const props = defineProps({
   sorts: {
-    type: Array<{ name: String; icon: Function }>,
+    type: Array<{ id: String; name: String; icon: Function }>,
     required: true,
   },
 });
+
+const selected = (key: number) => {
+  emit("onchangeData", props.sorts[key].id);
+};
 </script>
