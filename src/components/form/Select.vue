@@ -1,57 +1,133 @@
 <template>
-    <div class="mb-2 select-component">
-        <div class="px-2">
-            <label v-if="label !== ''" :for="name" class="block text-sm font-medium text-gray-700">{{ label }}</label>
-            <select 
-                autocomplete="off"
-                @change="onChange(input)" 
-                v-model="input" 
-                :id="name" 
-                :name="name"
-                :class="errorMessage !== '' ? 'border-red-500' : 'border-gray-300'" 
-                class="mt-1 appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm">
-                <option v-for="option in options" :value="option.id ? option.id : option.name">{{ option.name }}</option>
-            </select>
-            <span v-if="errorMessage !== ''" class="text-sm text-red-500">{{ errorMessage }}</span>
+  <div class="mb-2 select-component">
+    <div>
+      <Listbox
+        as="div"
+        v-model="input"
+        @update:modelValue="(value: string) => onChange(value)"
+      >
+        <ListboxLabel
+          v-if="label !== ''"
+          :for="name"
+          class="block text-sm font-medium text-gray-700"
+          >{{ label }}</ListboxLabel
+        >
+        <div class="relative mt-2">
+          <ListboxButton
+            class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            <span class="inline-flex h-full min-w-28 truncate">{{
+              selected ? selected.name : input
+            }}</span>
+            <span
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+            >
+              <ChevronUpDownIcon
+                class="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </ListboxButton>
+
+          <transition
+            leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+          >
+            <ListboxOptions
+              class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
+              <ListboxOption
+                as="template"
+                v-for="(option, key) in options"
+                :key="key"
+                :value="option.id ? option.id : option.name"
+                v-slot="{ active, selected }"
+              >
+                <li
+                  :class="[
+                    active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                    'relative cursor-default select-none py-2 pl-8 pr-4',
+                  ]"
+                >
+                  <span
+                    :class="[
+                      selected ? 'font-semibold' : 'font-normal',
+                      'inline-flex h-full truncate',
+                    ]"
+                    >{{ option.name }}</span
+                  >
+
+                  <span
+                    v-if="selected"
+                    :class="[
+                      active ? 'text-white' : 'text-indigo-600',
+                      'absolute inset-y-0 left-0 flex items-center pl-1.5',
+                    ]"
+                  >
+                    <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                  </span>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </transition>
         </div>
+      </Listbox>
+      <span v-if="errorMessage !== ''" class="text-sm text-red-500">{{
+        errorMessage
+      }}</span>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-    import { ref, watch } from 'vue';
+import { computed, ref, watch } from "vue";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/vue";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 
-    const emit = defineEmits(['onchangeData']);
-    
-    const props = defineProps({
-        name: {
-            type: String,
-            default: '',
-        },
-        label: {
-            type: String,
-            default: '',
-        },
-        value: {
-            type: String,
-            default: '',
-        },
-        options: {
-            type: Array,
-            default: [],
-        },
-        errorMessage: {
-            type: String,
-            default: '',
-        }
-    });
+const emit = defineEmits(["onchangeData"]);
 
-    let input = ref(props.value);
+const props = defineProps({
+  name: {
+    type: String,
+    default: "",
+  },
+  label: {
+    type: String,
+    default: "",
+  },
+  value: {
+    type: String,
+    default: "",
+  },
+  options: {
+    type: Array<{ id: String; name: String }>,
+    default: [],
+  },
+  errorMessage: {
+    type: String,
+    default: "",
+  },
+});
 
-    watch(props, (prop) => {
-        input.value = prop.value;
-    });
+let input = ref(props.value);
 
-    let onChange = (value: string) => {
-        emit('onchangeData', {name: props.name, value: value});
-    };
+watch(props, (prop) => {
+  input.value = prop.value;
+});
+
+const selected = computed(() => {
+  const selected = props.options.find((item) => item.id == input.value);
+  return selected;
+});
+
+let onChange = (value: string) => {
+  emit("onchangeData", { name: props.name, value: value });
+};
 </script>

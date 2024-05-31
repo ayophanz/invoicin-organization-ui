@@ -6,6 +6,7 @@ import Profile from '../views/Profile.vue';
 import Address from '../views/Address.vue';
 import user from '../views/user/Index.vue';
 import userCreate from '../views/user/Create.vue';
+import userEdit from '../views/user/Edit.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -34,9 +35,21 @@ const router = createRouter({
             component: user,
           },
           {
+            path: 'verified',
+            component: user,
+          },
+          {
+            path: 'pending',
+            component: user,
+          },
+          {
             path: 'new',
             component: userCreate,
-          }
+          },
+          {
+            path: ':id',
+            component: userEdit,
+          },
         ]
       }
     ],
