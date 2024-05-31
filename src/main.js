@@ -1,13 +1,10 @@
 import { createApp, h } from 'vue';
 import App from './App.vue';
 import { createPinia } from 'pinia';
+import router from './router';
 import singleSpaVue from 'single-spa-vue';
 import floatingVue from 'floating-vue';
 import Toast from "vue-toastification";
-
-import './style.css';
-import 'floating-vue/dist/style.css';
-import "vue-toastification/dist/index.css";
 
 const toastOptions = {
   // You can set your default options here
@@ -31,6 +28,7 @@ const vueLifecycles = singleSpaVue({
     },
     handleInstance: (app) => {
         app.use(pinia);
+        app.use(router);
         app.use(floatingVue);
         app.use(Toast, toastOptions);
     },
