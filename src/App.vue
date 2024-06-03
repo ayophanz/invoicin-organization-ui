@@ -14,4 +14,10 @@ import "floating-vue/dist/style.css";
 import "vue-toastification/dist/index.css";
 import "./style.css";
 import Sidebar from "./components/Sidebar.vue";
+// import globalEvent from "./globalEvent";
+// import { onMounted } from "vue";
+
+// onMounted(() => {
+//   globalEvent.listen.nav.me();
+// });
 </script>

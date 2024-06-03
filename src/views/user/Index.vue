@@ -67,7 +67,8 @@ import Sorting from "../../components/Sorting.vue";
 const route = useRoute();
 const router = useRouter();
 const organizationStore = useOrganizationStore();
-const { getUsers, getPagination } = storeToRefs(organizationStore);
+const { getCurrentRole, getUsers, getPagination } =
+  storeToRefs(organizationStore);
 
 const tableHead = ["ID", "Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "ID", "Email", "Verified", "Role"];
@@ -148,15 +149,19 @@ let permissionForm = reactive(
 
 onMounted(() => {
   urlChange();
-  onlyManager();
+  isManager();
 });
 
 watch(route, () => {
   urlChange();
+  isManager();
 });
 
-const onlyManager = () => {
-  //
+const isManager = () => {
+  if (getCurrentRole.value == "manager") {
+    filterForm.setOptions("role", [{ id: "member", name: "Member" }]);
+    filterForm.setFormData({ role: "Member" });
+  }
 };
 
 const assignData = () => {
@@ -173,7 +178,6 @@ const assignData = () => {
 };
 
 const urlChange = async () => {
-  console.log(route.path);
   viewType.value = route.query.view ? route.query.view.toString() : "table";
   assignData();
 

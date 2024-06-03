@@ -15,7 +15,6 @@ export default defineConfig({
         format: "system",
         entryFileNames: "[name].js",
       },
-      external: ["axios", "single-spa-vue"],
     },
     chunkSizeWarningLimit: 2000,
   },
