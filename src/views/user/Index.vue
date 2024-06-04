@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, computed, ref, reactive } from "vue";
+import { onMounted, watch, computed, ref, reactive, nextTick } from "vue";
 import {
   PlusIcon,
   BarsArrowDownIcon,
@@ -148,19 +148,21 @@ let permissionForm = reactive(
 );
 
 onMounted(() => {
+  forManager();
   urlChange();
-  isManager();
 });
 
 watch(route, () => {
+  forManager();
   urlChange();
-  isManager();
 });
 
-const isManager = () => {
+const forManager = () => {
   if (getCurrentRole.value == "manager") {
     filterForm.setOptions("role", [{ id: "member", name: "Member" }]);
-    filterForm.setFormData({ role: "Member" });
+    nextTick(() => {
+      filterForm.setFormData({ role: "member" });
+    });
   }
 };
 
@@ -189,16 +191,10 @@ const urlChange = async () => {
   }
 
   loading.value = true;
-  await services
-    .users(params)
-    .then(() => {
-      setTimeout(function () {
-        loading.value = false;
-      }, 2000);
-    })
-    .catch(() => {
-      loading.value = false;
-    });
+  await services.users(params);
+  setTimeout(function () {
+    loading.value = false;
+  }, 2000);
 };
 
 const changePage = async (page: string | null) => {
