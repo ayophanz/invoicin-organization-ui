@@ -3,7 +3,6 @@ import { EncryptStorage } from "encrypt-storage";
 
 export const useOrganizationStore = defineStore("organization", {
   state: () => ({
-    //_me: {},
     _profile: {},
     _addresses: [],
     _statusCode: 200,
@@ -12,9 +11,6 @@ export const useOrganizationStore = defineStore("organization", {
     _pagination: {},
   }),
   actions: {
-    // setMe(data: Object) {
-    //   this._me = data;
-    // },
     setProfile(data: Object) {
       this._profile = data;
     },
@@ -40,7 +36,6 @@ export const useOrganizationStore = defineStore("organization", {
         prefix: "@me",
       });
       return decryptMe.getItem("sharedMeState");
-      // return this._me;
     },
     getCurrentRole() {
       if (this.getMe.roles && this.getMe.roles.length > 0) {
