@@ -16,10 +16,12 @@ import "./style.css";
 import Sidebar from "./components/Sidebar.vue";
 import { ref } from "vue";
 
+console.log("test");
+
 const isLoaded = ref(false);
 
 if (
-  localStorage.getItem("@me:sharedMeState") !== null ||
+  localStorage.getItem("@me:sharedMeState") !== null &&
   localStorage.getItem("id_token") !== null
 )
   isLoaded.value = true;
