@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import router from '../router';
 
@@ -19,20 +18,16 @@ axios.interceptors.response.use(
             if (errorCode === 40101) {
                 if (router.currentRoute.value.meta.auth == true || Object.keys(router.currentRoute.value.meta).length == 0) {
                     localStorage.setItem("expired_at", new Date().toString());
-                    window.history.replaceState({}, '', `${window.location.origin}/session-expired`);
+                    router.replace({ name: 'sessionExpired' });
                 }
-                return Promise.reject(error);
             }
 
             /**
              * Login required
              */
-            if (errorCode === 40102) {
-                window.history.replaceState({}, '', `${window.location.origin}/login`);
-                return Promise.reject(error);
-            }
+            if (errorCode === 40102) router.replace({ name: 'login' });
         }
-
+        
         return Promise.reject(error);
     }
 );
