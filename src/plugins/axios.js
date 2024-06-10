@@ -1,11 +1,15 @@
 import axios from 'axios';
 import router from '../router';
+import { useToast } from "vue-toastification";
+import services from '../services';
+
+const toast = useToast();
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.headers.common.Accept = 'application/json';
 axios.interceptors.response.use(
     (response) => (response),
-    (error) => {
+    async (error) => {
         /**
          * Unauthorized
          */
@@ -17,7 +21,14 @@ axios.interceptors.response.use(
              */
             if (errorCode === 40102) {
                 if (router.currentRoute.value.meta.auth == true || Object.keys(router.currentRoute.value.meta).length == 0) {
-                    window.history.replaceState(null, '', `${window.location.origin}/session-expired`);
+                    toast.info("Extending session...", {
+                        timeout: 2000,
+                    });
+                    await services.refreshToken();
+                    toast.success("Session extended!", {
+                        timeout: 2000,
+                    });
+                    return axios.request(error.config);
                 }
             }
 
@@ -42,8 +53,7 @@ axios.interceptors.request.use(
             config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
         }
         return config;
-    },
-    (error) => Promise.reject(error)
+    }
 );
 
 export default axios;
