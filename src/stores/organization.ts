@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { EncryptStorage } from "encrypt-storage";
 
 export const useOrganizationStore = defineStore("organization", {
   state: () => ({
@@ -30,6 +31,16 @@ export const useOrganizationStore = defineStore("organization", {
     },
   },
   getters: {
+    getMe() {
+      const decrypt = new EncryptStorage("G!KLH5J4E=A@", { prefix: "@me" });
+      return decrypt.getItem("shared_me_state");
+    },
+    getCurrentRole() {
+      if (this.getMe.roles && this.getMe.roles.length > 0) {
+        return this.getMe.roles[0];
+      }
+      return null;
+    },
     getProfile() {
       return this._profile;
     },

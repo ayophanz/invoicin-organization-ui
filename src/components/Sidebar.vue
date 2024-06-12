@@ -19,7 +19,7 @@
       :class="compMenuHideToggle ? 'opactiy-100' : 'opacity-0'"
     >
       <li
-        v-for="(menu, key) in menus"
+        v-for="(menu, key) in compMenus"
         :key="key"
         class="relative flex justify-between gap-x-1 py-2 transition-all duration-700"
       >
@@ -74,6 +74,11 @@
 import { ref, computed, watch, onMounted } from "vue";
 import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/vue/24/outline";
 import { useRoute } from "vue-router";
+import { useOrganizationStore } from "../stores/organization";
+import { storeToRefs } from "pinia";
+
+const organizationStore = useOrganizationStore();
+const { getCurrentRole } = storeToRefs(organizationStore);
 
 const route = useRoute();
 
@@ -119,6 +124,12 @@ const menus = ref([
 
 onMounted(() => {
   currentMenu();
+  if (getCurrentRole.value == "member") {
+    const key = menus.value.findIndex(
+      (x: { name: string }) => x.name === "Users"
+    );
+    menus.value.splice(key, 1);
+  }
 });
 
 watch(route, () => {
@@ -152,6 +163,8 @@ const submenuHide = (key: number) => {
 };
 
 const compMenuHideToggle = computed(() => menuHideToggle.value);
+
+const compMenus = computed(() => menus.value);
 
 const currentPath = (to: string) => {
   // if (to.split("?").length > 0) {

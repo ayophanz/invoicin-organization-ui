@@ -13,9 +13,10 @@ import { useToast } from "vue-toastification";
 import { useOrganizationStore } from "../stores/organization";
 import { storeToRefs } from "pinia";
 import formUtil from "../utils/form.js";
+import globalEvent from "../globalEvent";
 
 const organizationStore = useOrganizationStore();
-const { getProfile } = storeToRefs(organizationStore);
+const { getProfile, getMe } = storeToRefs(organizationStore);
 const toast = useToast();
 
 let form = reactive(
@@ -58,11 +59,13 @@ const onFormSave = async () => {
   form.setLoading(true);
   await services
     .updateProfile(form.getFormData())
-    .then(() => {
+    .then(async () => {
       form.setLoading(false);
       toast.success("Successfully!", {
         timeout: 2000,
       });
+      await services.showProfile();
+      globalEvent.dispatch.nav.logo(getProfile.value.logo);
     })
     .catch((error) => {
       form.setErrors(error);

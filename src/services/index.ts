@@ -9,6 +9,7 @@ import showUser from "./showUser";
 import updateUser from "./updateUser";
 import destroyUser from "./destroyUser";
 import reInviteUser from "./reInviteUser";
+import refreshToken from "./refreshToken";
 
 export default {
   countries,
@@ -22,4 +23,5 @@ export default {
   updateUser,
   destroyUser,
   reInviteUser,
+  refreshToken,
 };
