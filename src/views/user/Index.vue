@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, computed, ref, reactive } from "vue";
+import { onMounted, watch, computed, ref, reactive, nextTick } from "vue";
 import {
   PlusIcon,
   BarsArrowDownIcon,
@@ -67,7 +67,8 @@ import Sorting from "../../components/Sorting.vue";
 const route = useRoute();
 const router = useRouter();
 const organizationStore = useOrganizationStore();
-const { getUsers, getPagination } = storeToRefs(organizationStore);
+const { getCurrentRole, getUsers, getPagination } =
+  storeToRefs(organizationStore);
 
 const tableHead = ["ID", "Image", "First Name", "Last Name", "Email", "Role"];
 const cardLabel = ["", "", "ID", "Email", "Verified", "Role"];
@@ -147,16 +148,22 @@ let permissionForm = reactive(
 );
 
 onMounted(() => {
+  forManager();
   urlChange();
-  onlyManager();
 });
 
 watch(route, () => {
+  forManager();
   urlChange();
 });
 
-const onlyManager = () => {
-  //
+const forManager = () => {
+  if (getCurrentRole.value == "manager") {
+    filterForm.setOptions("role", [{ id: "member", name: "Member" }]);
+    nextTick(() => {
+      filterForm.setFormData({ role: "member" });
+    });
+  }
 };
 
 const assignData = () => {
@@ -173,7 +180,6 @@ const assignData = () => {
 };
 
 const urlChange = async () => {
-  console.log(route.path);
   viewType.value = route.query.view ? route.query.view.toString() : "table";
   assignData();
 
@@ -185,16 +191,10 @@ const urlChange = async () => {
   }
 
   loading.value = true;
-  await services
-    .users(params)
-    .then(() => {
-      setTimeout(function () {
-        loading.value = false;
-      }, 2000);
-    })
-    .catch(() => {
-      loading.value = false;
-    });
+  await services.users(params);
+  setTimeout(function () {
+    loading.value = false;
+  }, 2000);
 };
 
 const changePage = async (page: string | null) => {
