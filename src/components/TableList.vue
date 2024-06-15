@@ -48,7 +48,13 @@
               i == props.head.length - 1 ? 'pr-4 sm:pr-6 pl-3' : '',
             ]"
           >
-            <div v-html="column"></div>
+            <div v-if="key2.toString() == 'profileImage'">
+              <ProfileImage
+                :image="column.image"
+                :defaultImage="column.defaultImage"
+              ></ProfileImage>
+            </div>
+            <div v-else v-html="column"></div>
           </td>
         </tr>
       </tbody>
@@ -58,6 +64,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import ProfileImage from "./ProfileImage.vue";
 
 const router = useRouter();
 const props = defineProps({

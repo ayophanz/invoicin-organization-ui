@@ -306,9 +306,11 @@ const tableBody = computed(() => {
       role: string;
       id: string;
       prettyId: string;
+      defaultImage: object;
     }) => ({
       id: user.prettyId,
-      image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
+      //image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
+      profileImage: { image: user.image, defaultImage: user.defaultImage },
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
@@ -329,8 +331,10 @@ const cardBody = computed(() => {
       id: string;
       emailVerified: string;
       prettyId: string;
+      defaultImage: object;
     }) => ({
-      image: `<img src="${user.image}" class="m-auto max-h-16 max-w-16 rounded-full object-cover"/>`,
+      //image: `<img src="${user.image}" class="m-auto max-h-16 max-w-16 rounded-full object-cover"/>`,
+      profileImage: { image: user.image, defaultImage: user.defaultImage },
       name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
       id: user.prettyId,
       email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
