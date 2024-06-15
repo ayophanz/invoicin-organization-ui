@@ -17,13 +17,21 @@
             key2.toString() == 'linkTo' || i > props.label.length - 1
               ? 'hidden'
               : '',
-            key2.toString() == 'image' ? 'justify-center' : 'justify-between',
+            key2.toString() == 'profileImage'
+              ? 'justify-center'
+              : 'justify-between',
           ]"
         >
           <span v-if="label[i] != ''" class="font-semibold text-sm"
             >{{ label[i] }}:</span
           >
-          <div v-html="item"></div>
+          <div v-if="key2.toString() == 'profileImage'">
+            <ProfileImage
+              :image="item.image"
+              :defaultImage="item.defaultImage"
+            ></ProfileImage>
+          </div>
+          <div v-else v-html="item"></div>
         </div>
       </div>
     </div>
@@ -32,6 +40,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import ProfileImage from "./ProfileImage.vue";
 
 const router = useRouter();
 const props = defineProps({

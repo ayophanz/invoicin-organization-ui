@@ -14,6 +14,7 @@ export default class UserTransformer extends Transformer {
       prettyId: item.pretty_id,
       firstname: item.first_name,
       lastname: item.last_name,
+      defaultImage: item.default_image,
       image: item.image,
       email: item.email,
       emailVerified: item.email_verified_at,
