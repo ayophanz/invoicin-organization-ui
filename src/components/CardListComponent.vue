@@ -4,7 +4,7 @@
       <p>No Data</p>
     </div>
     <div
-      v-for="(card, key) in props.body"
+      v-for="card in props.body"
       @click="linkTo(card['linkTo'] ? card['linkTo'].toString() : '')"
       class="cursor-pointer hover:opacity-75 flex flex-col justify-evenly rounded-md flex-none min-h-64 w-64 overflow-hidden border border-gray-100 shadow-lg p-4"
     >
@@ -22,14 +22,14 @@
               : 'justify-between',
           ]"
         >
-          <span v-if="label[i] != ''" class="font-semibold text-sm"
+          <span v-if="label[i]" class="font-semibold text-sm"
             >{{ label[i] }}:</span
           >
           <div v-if="key2.toString() == 'profileImage'">
-            <ProfileImage
+            <ProfileImageComponent
               :image="item.image"
               :defaultImage="item.defaultImage"
-            ></ProfileImage>
+            ></ProfileImageComponent>
           </div>
           <div v-else v-html="item"></div>
         </div>
@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import ProfileImage from "./ProfileImage.vue";
+import ProfileImageComponent from "./ProfileImageComponent.vue";
 
 const router = useRouter();
 const props = defineProps({

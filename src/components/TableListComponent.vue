@@ -31,7 +31,7 @@
         <tr
           v-for="(row, key) in props.body"
           :key="key"
-          @click="linkTo(row['linkTo'] ? row['linkTo'].toString() : '')"
+          @click="linkTo(row.linkTo ? row.linkTo.toString() : '')"
           :class="[
             props.clickableRow ? 'hover:bg-gray-200 cursor-pointer' : '',
           ]"
@@ -49,10 +49,10 @@
             ]"
           >
             <div v-if="key2.toString() == 'profileImage'">
-              <ProfileImage
+              <ProfileImageComponent
                 :image="column.image"
                 :defaultImage="column.defaultImage"
-              ></ProfileImage>
+              ></ProfileImageComponent>
             </div>
             <div v-else v-html="column"></div>
           </td>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import ProfileImage from "./ProfileImage.vue";
+import ProfileImageComponent from "./ProfileImageComponent.vue";
 
 const router = useRouter();
 const props = defineProps({
@@ -73,7 +73,7 @@ const props = defineProps({
     required: true,
   },
   body: {
-    type: Array<Array<any>>,
+    type: Array<Array<any>[any]>,
     required: true,
   },
   clickableRow: {

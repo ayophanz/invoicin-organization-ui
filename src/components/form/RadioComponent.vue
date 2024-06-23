@@ -2,7 +2,7 @@
   <div class="radio-component mb-2">
     <div class="border-0 rounded-md">
       <label
-        v-if="label !== ''"
+        v-if="label"
         class="block text-sm font-medium text-gray-700 text-left"
         >{{ label }}</label
       >
@@ -33,7 +33,7 @@
         </div>
       </fieldset>
     </div>
-    <span v-if="errorMessage != ''" class="text-sm text-red-500">{{
+    <span v-if="errorMessage" class="text-sm text-red-500">{{
       errorMessage
     }}</span>
   </div>

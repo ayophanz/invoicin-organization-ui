@@ -1,30 +1,37 @@
 import axios from "../plugins/axios";
 import UserTransformer from "../transformers/userTransformer";
 import { useOrganizationStore } from "../stores/organization";
+import { UserTransformerFetch } from "../types/userTransformerFetch";
 
-const success = (response: { data: object; meta: object }, resolve: any) => {
+const success = (
+  response: { data: UserTransformerFetch; meta: object },
+  resolve: (resolve: object) => void
+) => {
   if (response.data) {
     const transformer = UserTransformer.fetchCollection(response.data);
     const organizationStore = useOrganizationStore();
     organizationStore.setUsers(transformer);
     if (response.meta) organizationStore.setPagination(response.meta);
 
-    return resolve(response.data);
+    resolve(transformer);
   }
 };
 
-const fail = (data: object, reject: any) => {
-  return reject(data);
+const fail = (
+  error: UserTransformerFetch,
+  reject: (reject: object) => void
+) => {
+  reject(error);
 };
 
 export default (params = "") => {
   return new Promise((resolve, reject) => {
     axios
       .get(`api/users${params}`)
-      .then((response: { data: { data: object; meta: object } }) => {
+      .then((response) => {
         success(response.data, resolve);
       })
-      .catch((error: { response: { data: { errors: object } } }) => {
+      .catch((error) => {
         fail(error.response.data.errors, reject);
       });
   });

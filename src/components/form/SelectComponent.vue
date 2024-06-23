@@ -7,7 +7,7 @@
         @update:modelValue="(value: string) => onChange(value)"
       >
         <ListboxLabel
-          v-if="label !== ''"
+          v-if="label"
           :for="name"
           class="block text-sm font-medium text-gray-700"
           >{{ label }}</ListboxLabel
@@ -73,7 +73,7 @@
           </transition>
         </div>
       </Listbox>
-      <span v-if="errorMessage !== ''" class="text-sm text-red-500">{{
+      <span v-if="errorMessage" class="text-sm text-red-500">{{
         errorMessage
       }}</span>
     </div>
