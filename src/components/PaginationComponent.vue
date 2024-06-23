@@ -1,5 +1,7 @@
 <template>
-  <SlideIn :class="props.loading ? 'visible' : 'invisible'"></SlideIn>
+  <SlideInComponent
+    :class="props.loading ? 'visible' : 'invisible'"
+  ></SlideInComponent>
   <nav
     class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0"
   >
@@ -51,7 +53,7 @@
 
 <script setup lang="ts">
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/vue/24/solid";
-import SlideIn from "./SlideIn.vue";
+import SlideInComponent from "./SlideInComponent.vue";
 
 const emit = defineEmits(["onchangePage"]);
 const props = defineProps({

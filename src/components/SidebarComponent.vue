@@ -146,7 +146,7 @@ const currentMenu = () => {
 };
 
 const mapMenu = (name: string) => {
-  menus.value.forEach((item, key) => {
+  menus.value.forEach((_item, key) => {
     menus.value[key].active = false;
   });
 

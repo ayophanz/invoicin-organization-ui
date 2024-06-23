@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoaded" class="organization-app flex h-full flex-col">
     <div class="mx-auto h-full flex w-full items-start">
-      <Sidebar></Sidebar>
+      <SidebarComponent></SidebarComponent>
       <article class="flex-1 h-full mx-4">
         <router-view />
       </article>
@@ -13,7 +13,7 @@
 import "floating-vue/dist/style.css";
 import "vue-toastification/dist/index.css";
 import "./style.css";
-import Sidebar from "./components/Sidebar.vue";
+import SidebarComponent from "./components/SidebarComponent.vue";
 import { ref } from "vue";
 
 const isLoaded = ref(false);

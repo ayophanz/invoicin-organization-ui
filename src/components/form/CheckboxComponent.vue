@@ -1,8 +1,8 @@
 <template>
   <div class="mb-2 chekcbox-component">
     <div
-      :class="errorMessage !== '' ? 'border-red-500' : 'border-transparent'"
-      class="border px-2 rounded-md flex h-6 items-center"
+      :class="errorMessage ? 'border-red-500' : 'border-transparent'"
+      class="border rounded-md flex h-6 items-center"
     >
       <input
         :id="name"
@@ -12,13 +12,13 @@
         class="h-4 w-4 rounded cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-600"
       />
       <label
-        v-if="label !== ''"
+        v-if="label"
         :for="name"
         class="pl-3 cursor-pointer text-sm font-medium text-gray-900"
         >{{ label }}</label
       >
     </div>
-    <span v-if="errorMessage !== ''" class="text-sm text-red-500">{{
+    <span v-if="errorMessage" class="text-sm text-red-500">{{
       errorMessage
     }}</span>
   </div>
@@ -31,7 +31,7 @@ const emit = defineEmits(["onchangeData"]);
 
 const props = defineProps({
   value: {
-    type: String,
+    type: Boolean,
     default: "",
   },
   name: {

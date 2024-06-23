@@ -1,55 +1,57 @@
 <template>
   <div class="max-w-7xl mx-auto">
     <h1 class="mb-5 text-2xl font-semibold">User</h1>
-    <Back class="mb-3"></Back>
+    <BackComponent class="mb-3"></BackComponent>
     <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
-    <Form :form="form"></Form>
+    <FormComponent :form="form"></FormComponent>
     <div class="flex justify-center items-center gap-x-3">
-      <div v-if="getUser.emailVerified == null">
-        <Button :disabled="form.getLoading()" @click="reSendInvitation">
-          <Spinner
+      <div v-if="getUser.emailVerified">
+        <ButtonComponent
+          :disabled="form.getLoading()"
+          @click="reSendInvitation"
+        >
+          <SpinnerComponent
             v-if="runActionOn == 'invitation' && form.getLoading()"
-          ></Spinner>
+          ></SpinnerComponent>
           <span>Re-send Invitation</span>
-        </Button>
+        </ButtonComponent>
       </div>
       <div>
-        <Button :disabled="form.getLoading()" @click="onFormUpdate">
-          <Spinner
+        <ButtonComponent :disabled="form.getLoading()" @click="onFormUpdate">
+          <SpinnerComponent
             v-if="runActionOn == 'update' && form.getLoading()"
-          ></Spinner>
+          ></SpinnerComponent>
           <span>Update</span>
-        </Button>
+        </ButtonComponent>
       </div>
       <div>
-        <Button
+        <ButtonComponent
           type="danger"
           :disabled="form.getLoading()"
           @click="onFormDelete"
         >
-          <Spinner
+          <SpinnerComponent
             v-if="runActionOn == 'delete' && form.getLoading()"
-          ></Spinner>
+          ></SpinnerComponent>
           <span>Delete</span>
-        </Button>
+        </ButtonComponent>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watch, ref, createApp, nextTick } from "vue";
-import Form from "../../components/form/Form.vue";
-import Back from "../../components/Back.vue";
-import Button from "../../components/Button.vue";
+import { onMounted, reactive, watch, ref } from "vue";
+import FormComponent from "../../components/form/FormComponent.vue";
+import BackComponent from "../../components/BackComponent.vue";
+import ButtonComponent from "../../components/ButtonComponent.vue";
 import formUtil from "../../utils/form.js";
-import { CheckBadgeIcon } from "@heroicons/vue/24/outline";
 import { useRoute, useRouter } from "vue-router";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
 import { useToast } from "vue-toastification";
-import Spinner from "../../components/Spinner.vue";
+import SpinnerComponent from "../../components/SpinnerComponent.vue";
 
 const toast = useToast();
 const organizationStore = useOrganizationStore();
@@ -133,7 +135,7 @@ onMounted(async () => {
 
 const findPermission = (permission: string) => {
   const find = getUser.value.permissions.find(
-    (item: { name: string }) => item.name == permission
+    (item) => item.name == permission
   );
   return find ? true : false;
 };

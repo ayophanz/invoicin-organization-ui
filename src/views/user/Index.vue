@@ -5,13 +5,20 @@
     </h1>
     <div class="flex justify-between items-center my-2">
       <div class="flex justify-center items-center gap-x-2">
-        <ViewType :onView="onView" :view="viewType"></ViewType>
-        <Form :form="filterForm" class="filter-form"></Form>
-        <Sorting :sorts="sorts" @onchange-data="onSort"></Sorting>
+        <ViewTypeComponent
+          :onView="onView"
+          :view="viewType"
+        ></ViewTypeComponent>
+        <FormComponent :form="filterForm" class="filter-form"></FormComponent>
+        <SortingComponent
+          :sorts="sorts"
+          @onchange-data="onSort"
+        ></SortingComponent>
       </div>
       <div>
-        <Button @click="onNew">
-          <PlusIcon class="h-auto w-4"></PlusIcon><span>New</span></Button
+        <ButtonComponent @click="onNew">
+          <PlusIcon class="h-auto w-4"></PlusIcon
+          ><span>New</span></ButtonComponent
         >
       </div>
     </div>
@@ -20,25 +27,29 @@
       class="border border-gray-200 rounded-lg p-4 relative mt-4"
     >
       <span class="absolute -top-3 left-0 bg-white px-1">Permission</span>
-      <Form
+      <FormComponent
         :form="permissionForm"
         class="permission-form flex justify-start items-center"
-      ></Form>
+      ></FormComponent>
     </div>
     <div class="mt-5">
-      <TableList
+      <TableListComponent
         v-if="viewType == 'table'"
         :head="tableHead"
         :body="tableBody"
         :clickableRow="true"
-      ></TableList>
-      <CardList v-else :label="cardLabel" :body="cardBody"></CardList>
+      ></TableListComponent>
+      <CardListComponent
+        v-else
+        :label="cardLabel"
+        :body="cardBody"
+      ></CardListComponent>
       <div v-if="getPagination" class="mt-5">
-        <Pagination
+        <PaginationComponent
           :paginate="getPagination"
           :loading="loading"
           @onchange-page="changePage"
-        ></Pagination>
+        ></PaginationComponent>
       </div>
     </div>
   </div>
@@ -51,18 +62,18 @@ import {
   BarsArrowDownIcon,
   BarsArrowUpIcon,
 } from "@heroicons/vue/24/outline";
-import TableList from "../../components/TableList.vue";
-import CardList from "../../components/CardList.vue";
-import Button from "../../components/Button.vue";
-import Pagination from "../../components/Pagination.vue";
-import ViewType from "../../components/ViewType.vue";
+import TableListComponent from "../../components/TableListComponent.vue";
+import CardListComponent from "../../components/CardListComponent.vue";
+import ButtonComponent from "../../components/ButtonComponent.vue";
+import PaginationComponent from "../../components/PaginationComponent.vue";
+import ViewTypeComponent from "../../components/ViewTypeComponent.vue";
 import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import formUtil from "../../utils/form";
-import Form from "../../components/form/Form.vue";
-import Sorting from "../../components/Sorting.vue";
+import FormComponent from "../../components/form/FormComponent.vue";
+import SortingComponent from "../../components/SortingComponent.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -297,54 +308,29 @@ const status = computed(() => {
 });
 
 const tableBody = computed(() => {
-  return getUsers.value.map(
-    (user: {
-      image: string;
-      firstname: string;
-      lastname: string;
-      email: string;
-      role: string;
-      id: string;
-      prettyId: string;
-      defaultImage: object;
-    }) => ({
-      id: user.prettyId,
-      //image: `<img src="${user.image}" class="max-h-8 max-w-8 rounded-full object-cover"/>`,
-      profileImage: { image: user.image, defaultImage: user.defaultImage },
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      role: user.role[0],
-      linkTo: `/organization/users/${user.id}`,
-    })
-  );
+  return getUsers.value.map((user) => ({
+    id: user.prettyId,
+    profileImage: { image: user.image[0], defaultImage: user.defaultImage },
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    role: user.role[0],
+    linkTo: `/organization/users/${user.id}`,
+  }));
 });
 
 const cardBody = computed(() => {
-  return getUsers.value.map(
-    (user: {
-      image: string;
-      firstname: string;
-      lastname: string;
-      email: string;
-      role: string;
-      id: string;
-      emailVerified: string;
-      prettyId: string;
-      defaultImage: object;
-    }) => ({
-      //image: `<img src="${user.image}" class="m-auto max-h-16 max-w-16 rounded-full object-cover"/>`,
-      profileImage: { image: user.image, defaultImage: user.defaultImage },
-      name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
-      id: user.prettyId,
-      email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
-      emailVerified: `<span class="text-gray-500 text-sm">${
-        user.emailVerified ?? "Pending"
-      }</span>`,
-      role: `<span class="text-gray-500 text-sm">${user.role[0]}</span>`,
-      linkTo: `/organization/users/${user.id}`,
-    })
-  );
+  return getUsers.value.map((user) => ({
+    profileImage: { image: user.image[0], defaultImage: user.defaultImage },
+    name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
+    id: user.prettyId,
+    email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
+    emailVerified: `<span class="text-gray-500 text-sm">${
+      user.emailVerified ?? "Pending"
+    }</span>`,
+    role: `<span class="text-gray-500 text-sm">${user.role[0]}</span>`,
+    linkTo: `/organization/users/${user.id}`,
+  }));
 });
 
 const onNew = () => {

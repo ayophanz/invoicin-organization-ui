@@ -2,17 +2,17 @@
   <div class="max-w-7xl mx-auto">
     <h1 class="mb-5 text-2xl font-semibold">Invite Person</h1>
     <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
-    <Form
+    <FormComponent
       :form="form"
       :submit="onFormSave"
       :submitText="'Send Invitation'"
-    ></Form>
+    ></FormComponent>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, watch } from "vue";
-import Form from "../../components/form/Form.vue";
+import FormComponent from "../../components/form/FormComponent.vue";
 import formUtil from "../../utils/form.js";
 import services from "../../services";
 import { useToast } from "vue-toastification";

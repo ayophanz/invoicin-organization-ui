@@ -2,12 +2,12 @@
   <div class="max-w-7xl mx-auto">
     <h1 class="mb-5 text-2xl font-semibold">Profile</h1>
     <p class="mb-5 text-sm text-gray-500">Asterisk(*) is required fields.</p>
-    <Form :form="form" :submit="onFormSave"></Form>
+    <FormComponent :form="form" :submit="onFormSave"></FormComponent>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
-import Form from "../components/form/Form.vue";
+import FormComponent from "../components/form/FormComponent.vue";
 import services from "../services";
 import { useToast } from "vue-toastification";
 import { useOrganizationStore } from "../stores/organization";
@@ -16,7 +16,7 @@ import formUtil from "../utils/form.js";
 import globalEvent from "../globalEvent";
 
 const organizationStore = useOrganizationStore();
-const { getProfile, getMe } = storeToRefs(organizationStore);
+const { getProfile } = storeToRefs(organizationStore);
 const toast = useToast();
 
 let form = reactive(

@@ -1,23 +1,31 @@
-import axios from "../plugins/axios";
+import axios from "../plugins/axios.ts";
 import UserTransformer from "../transformers/userTransformer";
+import { UserTransformerFetch } from "../types/userTransformerFetch.ts";
 
-const success = (data: object, resolve: any) => {
-  return resolve(data);
+const success = (
+  response: UserTransformerFetch,
+  resolve: (resolve: object) => void
+) => {
+  const transformer = UserTransformer.fetch(response);
+  resolve(transformer);
 };
 
-const fail = (data: object, reject: any) => {
-  const transformer = UserTransformer.fetch(data);
-  return reject(transformer);
+const fail = (
+  error: UserTransformerFetch,
+  reject: (reject: object) => void
+) => {
+  const transformer = UserTransformer.fetch(error);
+  reject(transformer);
 };
 
 export default (id: number) => {
   return new Promise((resolve, reject) => {
     axios
       .delete(`api/users/${id}`)
-      .then((response: { data: object }) => {
+      .then((response) => {
         success(response.data, resolve);
       })
-      .catch((error: { response: { data: { errors: object } } }) => {
+      .catch((error) => {
         fail(error.response.data.errors, reject);
       });
   });

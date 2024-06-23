@@ -25,7 +25,10 @@
             </DisclosureButton>
           </div>
           <DisclosurePanel as="div" class="mt-2 pr-12">
-            <Form :submit="onAddressSave(index)" :form="address.form"></Form>
+            <FormComponent
+              :submit="onAddressSave(index)"
+              :form="address.form"
+            ></FormComponent>
           </DisclosurePanel>
         </Disclosure>
       </dl>
@@ -37,7 +40,7 @@
 import { onMounted, reactive } from "vue";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { MinusIcon, PlusIcon } from "@heroicons/vue/24/outline";
-import Form from "../components/form/Form.vue";
+import FormComponent from "../components/form/FormComponent.vue";
 import services from "../services";
 import { useOrganizationStore } from "../stores/organization";
 import { storeToRefs } from "pinia";
