@@ -1,21 +1,21 @@
 import axios from "../plugins/axios";
 
-const success = (data: object, resolve: any) => {
-  return resolve(data);
+const success = (response: object, resolve: (resolve: object) => void) => {
+  resolve(response);
 };
 
-const fail = (data: object, reject: any) => {
-  return reject(data);
+const fail = (error: object, reject: (reject: object) => void) => {
+  reject(error);
 };
 
 export default (id: number) => {
   return new Promise((resolve, reject) => {
     axios
       .post(`api/users/re-invite/${id}`)
-      .then((response: { data: object }) => {
+      .then((response) => {
         success(response.data, resolve);
       })
-      .catch((error: { response: { data: { errors: object } } }) => {
+      .catch((error) => {
         fail(error.response.data.errors, reject);
       });
   });

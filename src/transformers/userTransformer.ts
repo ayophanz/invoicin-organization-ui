@@ -6,9 +6,11 @@
  */
 
 import Transformer from "./transformer";
+import { UserTransformerFetch } from "../types/userTransformerFetch";
+import { UserTransformerSend } from "../types/userTransformerSend";
 
 export default class UserTransformer extends Transformer {
-  static fetch(item: any) {
+  static fetch(item: UserTransformerFetch) {
     return {
       id: item.id,
       prettyId: item.pretty_id,
@@ -24,7 +26,7 @@ export default class UserTransformer extends Transformer {
     };
   }
 
-  static send(item: any) {
+  static send(item: UserTransformerSend) {
     return {
       first_name: item.firstname,
       last_name: item.lastname,

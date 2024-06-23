@@ -1,25 +1,37 @@
-import axios from '../plugins/axios';
-import { useOrganizationStore } from '../stores/organization';
+import axios from "../plugins/axios";
+import { useOrganizationStore } from "../stores/organization";
+import ProfileTransformer from "../transformers/profileTransformer";
+import { ProfileTransformerFetch } from "../types/profileTransformerFetch";
 
-const success = (data: object, resolve: any) => {
-    if (data) {
-        const organizationStore = useOrganizationStore();
-        organizationStore.setProfile(data);
-        return resolve(data);
-    }
+const success = (
+  response: ProfileTransformerFetch,
+  resolve: (resolve: object) => void
+) => {
+  if (response) {
+    const transformer = ProfileTransformer.fetch(response);
+    const organizationStore = useOrganizationStore();
+    organizationStore.setProfile(transformer);
+    resolve(transformer);
+  }
 };
 
-const fail = (data: object, reject: any) => {
-    return reject(data);
+const fail = (
+  error: ProfileTransformerFetch,
+  reject: (reject: object) => void
+) => {
+  const transformer = ProfileTransformer.fetch(error);
+  reject(transformer);
 };
 
 export default () => {
-    return new Promise((resolve, reject) => {
-        axios.get('api/organization/profile/show')
-        .then((response) => {
-            success(response.data.data, resolve);
-        }).catch((error) => {
-            fail(error.response.data.errors, reject);
-        });
-    } );
-}
+  return new Promise((resolve, reject) => {
+    axios
+      .get("api/organization/profile/show")
+      .then((response) => {
+        success(response.data.data, resolve);
+      })
+      .catch((error) => {
+        fail(error.response.data.errors, reject);
+      });
+  });
+};

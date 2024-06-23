@@ -1,6 +1,6 @@
 export default class Form {
   form: any;
-  initialData = null;
+  initialData = null as any;
   constructor(form: object) {
     this.form = form;
 
@@ -22,13 +22,13 @@ export default class Form {
   }
 
   getFormData() {
-    let data = {};
-    Object.keys(this.form).map((key) => {
+    let data = {} as any;
+    Object.keys(this.form).map((key: string) => {
       if (this.form[key].type === "file") {
         let files = [] as any;
         if (this.form[key].value) {
-          this.form[key].value.forEach((item: any, key: number) => {
-            files[key] = item.getFileEncodeBase64String();
+          this.form[key].value.forEach((item: any, key2: number) => {
+            files[key2] = item.getFileEncodeBase64String();
           });
         }
         data[key] = files;
@@ -70,12 +70,16 @@ export default class Form {
   reset(field = null) {
     if (field) {
       if (this.form[field].value) {
-        this.form[field].value = this.initialData[field].value;
+        this.form[field].value = this.initialData
+          ? this.initialData[field].value
+          : null;
       }
     } else {
       Object.keys(this.form).map((key) => {
         if (this.form[key].value) {
-          this.form[key].value = this.initialData[key].value;
+          this.form[key].value = this.initialData
+            ? this.initialData[key].value
+            : null;
         }
       });
     }
