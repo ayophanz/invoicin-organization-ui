@@ -310,7 +310,10 @@ const status = computed(() => {
 const tableBody = computed(() => {
   return getUsers.value.map((user) => ({
     id: user.prettyId,
-    profileImage: { image: user.image[0], defaultImage: user.defaultImage },
+    profileImage: {
+      image: user.image ? user.image[0] : "",
+      defaultImage: user.defaultImage,
+    },
     firstname: user.firstname,
     lastname: user.lastname,
     email: user.email,
@@ -321,7 +324,10 @@ const tableBody = computed(() => {
 
 const cardBody = computed(() => {
   return getUsers.value.map((user) => ({
-    profileImage: { image: user.image[0], defaultImage: user.defaultImage },
+    profileImage: {
+      image: user.image ? user.image[0] : "",
+      defaultImage: user.defaultImage,
+    },
     name: `<h3 class="text-lg font-semibold">${user.firstname}, ${user.lastname}</h3>`,
     id: user.prettyId,
     email: `<span class="text-gray-500 text-sm">${user.email}</span>`,
