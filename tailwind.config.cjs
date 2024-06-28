@@ -12,6 +12,7 @@ module.exports = {
 		preflight: true
 	},
   plugins: [
+    require('tailwindcss-primeui'),
     require('@tailwindcss/forms'),
   ],
 }

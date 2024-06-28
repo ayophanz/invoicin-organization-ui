@@ -1,5 +1,13 @@
-const beforeEach = (_to: any, _from: any, next: () => void) => {
-  next();
+import { /*RouteLocationNormalized,*/ NavigationGuardNext } from "vue-router";
+
+const beforeEach = (
+  //to: RouteLocationNormalized,
+  //from: RouteLocationNormalized,
+  next: NavigationGuardNext
+) => {
+  return () => {
+    next();
+  };
 };
 
 export default {

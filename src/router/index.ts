@@ -54,6 +54,6 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(middleware.beforeEach);
+router.beforeEach(middleware.beforeEach as any);
 
 export default router;
