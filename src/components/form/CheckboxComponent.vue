@@ -4,30 +4,27 @@
       :class="errorMessage ? 'border-red-500' : 'border-transparent'"
       class="border rounded-md flex h-6 items-center"
     >
-      <!-- <input
-        :id="name"
-        :name="name"
-        v-model="checkbox"
-        type="checkbox"
-        class="h-4 w-4 rounded cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-600"
-      /> -->
       <Checkbox
-        :id="name"
-        :name="name"
+        :id="props.name"
+        :name="props.name"
         v-model="checkbox"
-        indeterminate
         binary
+        :invalid="props.errorMessage != ''"
+        :aria-describedby="`${props.name}-help`"
       />
       <label
-        v-if="label"
-        :for="name"
+        v-if="props.label"
+        :for="props.name"
         class="pl-3 cursor-pointer text-sm font-medium text-gray-900"
-        >{{ label }}</label
+        >{{ props.label }}</label
       >
     </div>
-    <span v-if="errorMessage" class="text-sm text-red-500">{{
-      errorMessage
-    }}</span>
+    <small
+      v-if="props.errorMessage"
+      class="text-sm text-red-500"
+      :id="`${props.name}-help`"
+      >{{ props.errorMessage }}</small
+    >
   </div>
 </template>
 
@@ -40,7 +37,7 @@ const emit = defineEmits(["onchangeData"]);
 const props = defineProps({
   value: {
     type: Boolean,
-    default: "",
+    default: false,
   },
   name: {
     type: String,

@@ -7,33 +7,30 @@
     <div class="flex justify-center items-center gap-x-3">
       <div v-if="getUser.emailVerified">
         <ButtonComponent
-          :disabled="form.getLoading()"
           @click="reSendInvitation"
+          :disabled="form.getLoading()"
+          :loading="runActionOn == 'invitation' && form.getLoading()"
+          label="Re-send Invitation"
         >
-          <SpinnerComponent
-            v-if="runActionOn == 'invitation' && form.getLoading()"
-          ></SpinnerComponent>
-          <span>Re-send Invitation</span>
-        </ButtonComponent>
-      </div>
-      <div>
-        <ButtonComponent :disabled="form.getLoading()" @click="onFormUpdate">
-          <SpinnerComponent
-            v-if="runActionOn == 'update' && form.getLoading()"
-          ></SpinnerComponent>
-          <span>Update</span>
         </ButtonComponent>
       </div>
       <div>
         <ButtonComponent
-          type="danger"
+          @click="onFormUpdate"
           :disabled="form.getLoading()"
-          @click="onFormDelete"
+          :loading="runActionOn == 'update' && form.getLoading()"
+          label="Update"
         >
-          <SpinnerComponent
-            v-if="runActionOn == 'delete' && form.getLoading()"
-          ></SpinnerComponent>
-          <span>Delete</span>
+        </ButtonComponent>
+      </div>
+      <div>
+        <ButtonComponent
+          severity="danger"
+          @click="onFormDelete"
+          :disabled="form.getLoading()"
+          :loading="runActionOn == 'delete' && form.getLoading()"
+          label="Delete"
+        >
         </ButtonComponent>
       </div>
     </div>
@@ -51,7 +48,6 @@ import services from "../../services";
 import { useOrganizationStore } from "../../stores/organization";
 import { storeToRefs } from "pinia";
 import { useToast } from "vue-toastification";
-import SpinnerComponent from "../../components/SpinnerComponent.vue";
 
 const toast = useToast();
 const organizationStore = useOrganizationStore();

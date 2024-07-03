@@ -16,10 +16,11 @@
         ></SortingComponent>
       </div>
       <div>
-        <ButtonComponent @click="onNew">
-          <PlusIcon class="h-auto w-4"></PlusIcon
-          ><span>New</span></ButtonComponent
-        >
+        <ButtonComponent
+          @click="onNew"
+          label="New"
+          icon="pi pi-plus"
+        ></ButtonComponent>
       </div>
     </div>
     <div
@@ -57,11 +58,7 @@
 
 <script setup lang="ts">
 import { onMounted, watch, computed, ref, reactive, nextTick } from "vue";
-import {
-  PlusIcon,
-  BarsArrowDownIcon,
-  BarsArrowUpIcon,
-} from "@heroicons/vue/24/outline";
+import { BarsArrowDownIcon, BarsArrowUpIcon } from "@heroicons/vue/24/outline";
 import TableListComponent from "../../components/TableListComponent.vue";
 import CardListComponent from "../../components/CardListComponent.vue";
 import ButtonComponent from "../../components/ButtonComponent.vue";

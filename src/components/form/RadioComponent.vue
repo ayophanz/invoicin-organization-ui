@@ -2,27 +2,26 @@
   <div class="radio-component mb-2">
     <div class="border-0 rounded-md">
       <label
-        v-if="label"
+        v-if="props.label"
         class="block text-sm font-medium text-gray-700 text-left"
-        >{{ label }}</label
+        >{{ props.label }}</label
       >
       <fieldset class="mt-2">
         <div
           class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0"
         >
           <div
-            v-for="(option, key) in options"
+            v-for="(option, key) in props.options"
             :key="key"
             class="flex items-center"
           >
-            <input
+            <RadioButton
               :id="key.toString()"
-              :name="name"
-              type="radio"
               v-model="radio"
+              inputId="ingredient1"
+              :name="props.name"
               :value="option.value"
               :checked="option.value === radio"
-              class="h-4 w-4 border-gray-300 cursor-pointer text-indigo-600 focus:ring-indigo-600"
             />
             <label
               :for="key.toString()"
@@ -33,14 +32,18 @@
         </div>
       </fieldset>
     </div>
-    <span v-if="errorMessage" class="text-sm text-red-500">{{
-      errorMessage
-    }}</span>
+    <small
+      v-if="props.errorMessage"
+      :id="`${props.name}-help`"
+      class="text-sm text-red-500"
+      >{{ props.errorMessage }}</small
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import RadioButton from "primevue/radiobutton";
 
 const emit = defineEmits(["onchangeData"]);
 

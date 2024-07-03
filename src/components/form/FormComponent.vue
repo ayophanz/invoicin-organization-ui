@@ -72,9 +72,9 @@
         <ButtonComponent
           @click="props.submit"
           :disabled="props.form.getLoading()"
+          :loading="props.form.getLoading()"
+          label="Save"
         >
-          <SpinnerComponent v-if="props.form.getLoading()"></SpinnerComponent>
-          {{ props.submitText ? props.submitText : "Save" }}
         </ButtonComponent>
       </div>
     </div>
@@ -89,7 +89,6 @@ import SelectComponent from "./SelectComponent.vue";
 import RadioComponent from "./RadioComponent.vue";
 import CheckboxComponent from "./CheckboxComponent.vue";
 import MessageComponent from "./MessageComponent.vue";
-import SpinnerComponent from "../SpinnerComponent.vue";
 import ButtonComponent from "../ButtonComponent.vue";
 
 const emit = defineEmits(["onchangeForm"]);

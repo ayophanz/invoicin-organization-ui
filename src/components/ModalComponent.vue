@@ -35,18 +35,12 @@
               :class="dialogClass"
               class="relative max-w-5xl transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
-              <button
+              <ButtonComponent
                 ref="completeButtonRef"
                 @click="closeModal"
+                icon="pi pi-times"
                 v-show="props.showClose"
-                type="button"
-                class="flex px-1 py-1 right-2 top-2 absolute focus:outline-none"
-              >
-                <XMarkIcon
-                  class="h-6 w-6 hover:text-red-500 text-red-300"
-                  aria-hidden="true"
-                />&nbsp;
-              </button>
+              ></ButtonComponent>
               <slot></slot>
             </DialogPanel>
           </TransitionChild>
@@ -64,7 +58,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { XMarkIcon } from "@heroicons/vue/24/outline";
+import ButtonComponent from "./ButtonComponent.vue";
 
 /** Process */
 const props = defineProps({

@@ -8,25 +8,22 @@
         >{{ props.label }}</label
       >
       <div class="mt-1 flex flex-col">
-        <input
-          autocomplete="off"
+        <InputText
           v-model="input"
           :placeholder="props.placeholder"
           :type="props.type"
           :name="props.name"
           :id="props.name"
           :disabled="props.disabled"
-          :class="[
-            props.disabled
-              ? 'disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200'
-              : '',
-            props.errorMessage ? 'border-red-500' : 'border-gray-300',
-          ]"
-          class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          :invalid="props.errorMessage != ''"
+          :aria-describedby="`${props.name}-help`"
         />
-        <span v-if="props.errorMessage" class="text-sm text-red-500">{{
-          props.errorMessage
-        }}</span>
+        <small
+          v-if="props.errorMessage"
+          :id="`${props.name}-help`"
+          class="text-sm text-red-500"
+          >{{ props.errorMessage }}</small
+        >
       </div>
     </div>
   </div>
@@ -34,6 +31,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import InputText from "primevue/inputtext";
 
 const emit = defineEmits(["onchangeData"]);
 
