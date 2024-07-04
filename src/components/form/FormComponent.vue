@@ -73,7 +73,7 @@
           @click="props.submit"
           :disabled="props.form.getLoading()"
           :loading="props.form.getLoading()"
-          label="Save"
+          :label="props.submitText"
         >
         </ButtonComponent>
       </div>

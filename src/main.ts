@@ -6,15 +6,14 @@ import singleSpaVue from "single-spa-vue";
 import floatingVue from "floating-vue";
 import Toast from "vue-toastification";
 import PrimeVue from "primevue/config";
-import "primeicons/primeicons.css";
 import { definePreset } from "@primevue/themes";
-import Nora from "@primevue/themes/nora";
+import Aura from "@primevue/themes/aura";
 
 const toastOptions = {
   // You can set your default options here
 };
 
-const UIPreset = definePreset(Nora, {
+const UIPreset = definePreset(Aura, {
   semantic: {
     primary: {
       50: "{sky.50}",
