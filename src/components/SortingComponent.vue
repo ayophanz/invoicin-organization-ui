@@ -2,11 +2,11 @@
   <div class="">
     <Popover v-slot="{ open }" class="relative">
       <PopoverButton
-        :class="open ? 'bg-gray-700' : 'bg-white'"
+        :class="open ? 'bg-slate-700' : 'bg-white'"
         class="group inline-flex items-center rounded-md px-3 py-2 text-base font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
       >
         <FunnelIcon
-          :class="[open ? 'text-white' : 'text-gray-700', 'h-5 w-auto']"
+          :class="[open ? 'text-white' : 'text-slate-700', 'h-5 w-auto']"
         ></FunnelIcon>
       </PopoverButton>
 
@@ -28,7 +28,7 @@
                 :key="key"
                 @click="selected(key)"
                 href="javascript:;"
-                class="flex items-center rounded-lg p-2 transition duration-150 ease-in-out text-gray-700 hover:text-white hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
+                class="flex items-center rounded-lg p-2 transition duration-150 ease-in-out text-slate-700 hover:text-white hover:bg-slate-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
               >
                 <div class="flex h-5 w-5 shrink-0 items-center justify-center">
                   <div>

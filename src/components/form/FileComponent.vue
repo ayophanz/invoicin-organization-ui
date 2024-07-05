@@ -1,7 +1,7 @@
 <template>
   <div class="mb-2 file-component">
     <div>
-      <label v-if="label" class="block text-sm font-medium text-gray-700">{{
+      <label v-if="label" class="block text-sm font-medium text-slate-700">{{
         props.label
       }}</label>
       <div class="mt-1 rounded-md shadow-sm w-80">

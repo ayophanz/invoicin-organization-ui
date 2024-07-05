@@ -8,7 +8,7 @@
         href="javascript:;"
         @click="menuHide()"
         :class="compMenuHideToggle ? 'rotate-0' : 'rotate-180'"
-        class="text-white bg-gray-700 transition-all duration-700 absolute rounded-full left-[-16px] p-1"
+        class="text-white bg-slate-700 transition-all duration-700 absolute rounded-full left-[-16px] p-1"
       >
         <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
       </a>
@@ -42,8 +42,8 @@
                 <RouterLink
                   :to="submenu.to"
                   :class="[
-                    currentPath(submenu.to) ? 'bg-gray-700 text-white' : '',
-                    'w-full flex justify-between items-center text-sm hover:bg-gray-700 rounded-full py-1 px-2 transition-all hover:text-white',
+                    currentPath(submenu.to) ? 'bg-slate-700 text-white' : '',
+                    'w-full flex justify-between items-center text-sm hover:bg-slate-700 rounded-full py-1 px-2 transition-all hover:text-white',
                   ]"
                 >
                   <span>{{ submenu.name }}</span>

@@ -3,7 +3,7 @@
     <div class="border-0 rounded-md">
       <label
         v-if="props.label"
-        class="block text-sm font-medium text-gray-700 text-left"
+        class="block text-sm font-medium text-slate-700 text-left"
         >{{ props.label }}</label
       >
       <fieldset class="mt-2">
@@ -22,6 +22,7 @@
               :name="props.name"
               :value="option.value"
               :checked="option.value === radio"
+              class="rounded-full"
             />
             <label
               :for="key.toString()"

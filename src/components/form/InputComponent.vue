@@ -4,7 +4,7 @@
       <label
         v-if="props.label"
         :for="props.name"
-        class="block text-sm font-medium text-gray-700 text-left"
+        class="block text-sm font-medium text-slate-700 text-left"
         >{{ props.label }}</label
       >
       <div class="mt-1 flex flex-col">
@@ -17,6 +17,7 @@
           :disabled="props.disabled"
           :invalid="props.errorMessage != ''"
           :aria-describedby="`${props.name}-help`"
+          class="rounded-full"
         />
         <small
           v-if="props.errorMessage"

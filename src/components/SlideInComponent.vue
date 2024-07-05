@@ -1,13 +1,13 @@
 <template>
   <div class="custom-slide-in relative h-3">
     <div
-      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+      class="bg-slate-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
     ></div>
     <div
-      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+      class="bg-slate-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
     ></div>
     <div
-      class="bg-gray-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
+      class="bg-slate-700 h-2 w-2 left-2/4 top-2/4 -mt-1 opacity-0 absolute"
     ></div>
   </div>
 </template>

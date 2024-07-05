@@ -3,7 +3,7 @@
     <label
       v-if="props.label"
       :for="props.name"
-      class="block text-sm font-medium text-gray-700 text-left"
+      class="block text-sm font-medium text-slate-700 text-left"
       >{{ props.label }}</label
     >
     <div class="mt-1 flex flex-col">
@@ -13,10 +13,11 @@
         :options="props.options"
         optionLabel="name"
         placeholder="Select a Country"
-        class="w-full"
         :invalid="props.errorMessage != ''"
         :aria-describedby="`${props.name}-help`"
         @update:modelValue="(value: TmodelValue) => onChange(value)"
+        class="rounded-full w-full"
+        :pt="{ label: 'rounded-full focus:ring-0' }"
       />
       <small
         v-if="props.errorMessage"

@@ -5,6 +5,8 @@
     :icon="props.icon"
     :iconPos="props.iconPos"
     :loading="props.loading"
+    class="rounded-full"
+    :pt="{ label: 'font-normal text-md' }"
   />
 </template>
 <script setup lang="ts">

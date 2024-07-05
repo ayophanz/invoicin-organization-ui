@@ -5,12 +5,13 @@
       class="border rounded-md flex h-6 items-center"
     >
       <Checkbox
-        :id="props.name"
         :name="props.name"
         v-model="checkbox"
         binary
         :invalid="props.errorMessage != ''"
         :aria-describedby="`${props.name}-help`"
+        :inputId="props.name"
+        :pt="{ box: 'rounded-full' }"
       />
       <label
         v-if="props.label"
